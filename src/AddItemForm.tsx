@@ -1,5 +1,10 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import s from "./Todolist.module.scss";
+import s from "./AddItemForm.module.scss";
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import {AddBox} from "@mui/icons-material";
 
 type AddItemFormType = {
     addItem: (title: string) => void
@@ -19,8 +24,7 @@ export const AddItemForm = ({addItem}: AddItemFormType) => {
             setError('Field is required')
         }
     }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>
-    ) => {
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError('')
         if (e.key === 'Enter') {
             addItemHandler()
@@ -29,13 +33,19 @@ export const AddItemForm = ({addItem}: AddItemFormType) => {
 
 
     return (
-        <div>
-            <input className={error && s.errorInput}
-                   value={title}
-                   onChange={onChangeHandler}
-                   onKeyUp={onKeyPressHandler}/>
-            <button onClick={addItemHandler}>+</button>
-            {error && <div className={s.errorMassage}>{error}</div>}
+        <div className={s.container}>
+            <TextField variant={'outlined'}
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyUp={onKeyPressHandler}
+                       error={!!error}
+                       label={'title'}
+                       helperText={error}/>
+            <IconButton
+                color={'primary'}
+                onClick={addItemHandler}>
+                <AddBox/>
+            </IconButton>
         </div>
     );
 };

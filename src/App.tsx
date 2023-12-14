@@ -3,7 +3,10 @@ import {TaskType, TodoList} from "./TodoList.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm.tsx";
-
+import {Header} from "./layout/header/header.tsx";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import {Paper} from "@mui/material";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 export type todoListType = {
@@ -25,7 +28,6 @@ export const App = () => {
         {id: todoListId1, title: 'What to learn', filter: 'all'},
         {id: todoListId2, title: 'What to buy', filter: 'all'},
     ])
-
     let [tasks, setTasks] = useState<TasksStateType>({
         [todoListId1]: [
             {id: v1(), title: 'CSS', isDone: true},
@@ -40,19 +42,17 @@ export const App = () => {
         ],
     })
 
-
     const removeTask = (taskId: string, todoListId: string) => {
         setTasks({
             ...tasks, [todoListId]: tasks[todoListId].filter(el => el.id != taskId)
         })
     }
-    const removeTodoList = (todoListId: string)=>{
-        setTodoLists(todoLists.filter(td=>td.id != todoListId))
+    const removeTodoList = (todoListId: string) => {
+        setTodoLists(todoLists.filter(td => td.id != todoListId))
         const copyTasks = {...tasks}
         delete copyTasks[todoListId]
         setTasks(copyTasks)
     }
-    console.log(tasks)
     const changeFilter = (value: FilterValuesType, todoListId: string) => {
         setTodoLists(
             [...todoLists
@@ -64,15 +64,12 @@ export const App = () => {
         const newTask: TaskType = {id: v1(), title, isDone: false}
         setTasks({...tasks, [todoListId]: [newTask, ...tasks[todoListId]]})
     }
-
     const changeStatus = (taskId: string, isDone: boolean, todoListId: string) => {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {...el, isDone} : el)})
     }
-
     const changeTaskTitle = (taskId: string, title: string, todoListId: string) => {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {...el, title} : el)})
     }
-
     const addTodoList = (title: string) => {
         const id = v1()
         setTodoLists([...todoLists, {id, title, filter: 'all'}])
@@ -88,24 +85,34 @@ export const App = () => {
             tasksForTodolist = tasks[tdl.id].filter(el => !el.isDone)
         }
 
-        return <TodoList
-            key={tdl.id}
-            todoList={tdl}
-            tasks={tasksForTodolist}
-            removeTask={removeTask}
-            changeFilter={changeFilter}
-            addTask={addTask}
-            changeStatus={changeStatus}
-            changeTaskTitle={changeTaskTitle}
-            removeTodoList={removeTodoList}
-        />
+        return <Grid item>
+            <Paper style={{padding: '10px'}}>
+                <TodoList
+                    key={tdl.id}
+                    todoList={tdl}
+                    tasks={tasksForTodolist}
+                    removeTask={removeTask}
+                    changeFilter={changeFilter}
+                    addTask={addTask}
+                    changeStatus={changeStatus}
+                    changeTaskTitle={changeTaskTitle}
+                    removeTodoList={removeTodoList}
+                />
+            </Paper>
+        </Grid>
     })
 
 
     return (
         <div className={s.app}>
-            <AddItemForm addItem={addTodoList}/>
-            {mappedTodoLists}
+            <Header/>
+            <Container fixed>
+                <Grid container style={{padding: '20px'}}>
+                    <AddItemForm addItem={addTodoList}/></Grid>
+                <Grid container spacing={3}>
+                    {mappedTodoLists}
+                </Grid>
+            </Container>
         </div>
     )
 }

@@ -1,13 +1,19 @@
 .todoListContainer {
-background-color: antiquewhite;
-}
 
+  .buttonContainer {
+    display: flex;
+    gap: 20px;
 
-.errorInput {
-  border: 1px solid red;
-}
-.errorMassage{
-  color: red;
+    > .button {
+      &:hover {
+        transform: scale(1.1);
+        transition: 0.2s ease-in-out;
+      }
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
 }
 
 .activeFilter {

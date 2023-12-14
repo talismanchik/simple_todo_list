@@ -1,0 +1,21 @@
+.container{
+
+  > button {
+    min-width: auto;
+    > span {
+      margin-inline: auto;
+    }
+
+    &:hover {
+      > span {
+        transform: scale(1.3);
+        transition: 0.1s ease-in-out;
+      }
+    }
+    &:active {
+      > span {
+        transform: scale(0.9);
+      }
+    }
+  }
+}
