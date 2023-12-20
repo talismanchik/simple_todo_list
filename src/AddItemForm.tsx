@@ -1,7 +1,5 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "./AddItemForm.module.scss";
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import {AddBox} from "@mui/icons-material";

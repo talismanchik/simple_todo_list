@@ -1,4 +1,4 @@
-import {FilterValuesType, todoListType} from "./App.tsx";
+import {FilterValuesType, TodoListType} from "./App.tsx";
 import s from './Todolist.module.scss'
 import {AddItemForm} from "./AddItemForm.tsx";
 import {EditableSpan} from "./EditableSpan.tsx";
@@ -51,10 +51,6 @@ export const TodoList = ({
                 color={'primary'}
                           onChange={() => changeStatus(el.id, !el.isDone, todoList.id)}
                 />
-                {/*<input type={'checkbox'}*/}
-                {/*       checked={el.isDone}*/}
-                {/*       onChange={() => changeStatus(el.id, !el.isDone, todoList.id)}/>*/}
-                {/*<span  className={el.isDone? s.isDone: ''}>{el.title}</span>*/}
                 <EditableSpan isDone={el.isDone} title={el.title} onChange={changeTaskTitleHandler}/>
                 <IconButton onClick={() => removeTask(el.id, todoList.id)}>
                     <DeleteIcon/>

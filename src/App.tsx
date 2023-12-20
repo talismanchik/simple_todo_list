@@ -7,13 +7,10 @@ import {Header} from "./layout/header/header.tsx";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {Paper} from "@mui/material";
+import {TodoListType} from "./state/todoListsReducer/todoListsReducer.ts";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
-export type todoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+
 export type TasksStateType = {
     [key: string]: TaskType[]
 }
@@ -24,7 +21,7 @@ export const App = () => {
     const todoListId2 = v1()
 
 
-    const [todoLists, setTodoLists] = useState<todoListType[]>([
+    const [todoLists, setTodoLists] = useState<TodoListType[]>([
         {id: todoListId1, title: 'What to learn', filter: 'all'},
         {id: todoListId2, title: 'What to buy', filter: 'all'},
     ])
