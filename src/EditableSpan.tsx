@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 type EditableSpanType = {
     title: string
     onChange: (newTitle: string)=> void
-    isDone: boolean
+    isDone?: boolean
 }
 
 export const EditableSpan = ({title, onChange, isDone}:EditableSpanType) => {
