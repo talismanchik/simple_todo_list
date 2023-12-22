@@ -9,6 +9,8 @@ type EditableSpanType = {
 }
 
 export const EditableSpan = ({title, onChange, isDone}:EditableSpanType) => {
+
+    console.log('EditableSpan called')
     const [editMode, setEditMode] = useState(false)
     const [inputValue, setInputValue] = useState(title)
 

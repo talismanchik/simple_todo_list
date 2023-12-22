@@ -5,9 +5,10 @@ import {EditableSpan} from "./EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import Checkbox from "@mui/material/Checkbox";
 import {TodoListType} from "./state/todoListsReducer/todoListsReducer.ts";
 import {TaskType} from "./state/tasksReducer/tasksReducer.ts";
+import React, {useCallback} from "react";
+import {Task} from "./Task.tsx";
 
 
 type TodoListPropsType = {
@@ -21,7 +22,7 @@ type TodoListPropsType = {
     removeTodoList: (todoListId: string) => void
     changeTodoListTitle: (todoListId: string, value: string) => void
 }
-export const TodoList = ({
+export const TodoList = React.memo(({
                              todoList,
                              tasks,
                              removeTask,
@@ -32,33 +33,43 @@ export const TodoList = ({
                              removeTodoList,
                              changeTodoListTitle,
                          }: TodoListPropsType) => {
+    console.log("Todolist called")
 
-
-    const onClickHandler = (title: string) => {
-        addTask(todoList.id, title)
+    let tasksForTodolist = tasks
+    if (todoList.filter === 'completed') {
+        tasksForTodolist = tasks.filter(el => el.isDone)
     }
+    if (todoList.filter === 'active') {
+        tasksForTodolist = tasks.filter(el => !el.isDone)
+    }
+
+
+    const onClickHandler = useCallback((title: string) => {
+        addTask(todoList.id, title)
+    }, [addTask, todoList.id])
     const changeTodoListTitleHandler = (title: string)=>{
         changeTodoListTitle(todoList.id, title)
     }
 
 
-    const tasksMapped = tasks.map((el) => {
+    const tasksMapped = tasksForTodolist.map((el) => {
         const changeTaskTitleHandler = (title: string) => {
             changeTaskTitle(todoList.id, el.id, title)
         }
-
+        const changeStatusHandler = (newIsDone: boolean) =>{
+            changeStatus(todoList.id, el.id, newIsDone)
+        }
+        const removeTaskHandler = ()=>{
+            removeTask(todoList.id, el.id)
+        }
         return (
-            <li key={el.id}>
-                <Checkbox checked={el.isDone}
-                          color={'primary'}
-                          onChange={() => changeStatus(todoList.id, el.id, !el.isDone)}
-                />
-                <EditableSpan isDone={el.isDone} title={el.title} onChange={changeTaskTitleHandler}/>
-                <IconButton onClick={() => removeTask(todoList.id, el.id)}>
-                    <DeleteIcon/>
-                </IconButton>
-                {/*<button onClick={() => removeTask(el.id, todoList.id)}>x</button>*/}
-            </li>
+            <Task key={el.id}
+                  isDone={el.isDone}
+                  title={el.title}
+                  changeStatus={changeStatusHandler}
+                  changeTaskTitle={changeTaskTitleHandler}
+                  removeTask={removeTaskHandler}
+            />
         )
     })
 
@@ -80,22 +91,22 @@ export const TodoList = ({
             </ul>
             <div className={s.buttonContainer}>
                 <Button className={s.button}
-                        onClick={() => changeFilter(todoList.id, 'all')}
+                        onClick={useCallback(() => changeFilter(todoList.id, 'all'), [])}
                         variant={todoList.filter === 'all' ? 'contained' : 'text'}
                 >All
                 </Button>
                 <Button className={s.button}
-                        onClick={() => changeFilter(todoList.id, 'active')}
+                        onClick={useCallback(() => changeFilter(todoList.id, 'active'), [])}
                         variant={todoList.filter === 'active' ? 'contained' : 'text'}
                 >Active
                 </Button>
                 <Button className={s.button}
-                        onClick={() => changeFilter(todoList.id, 'completed')}
+                        onClick={useCallback(() => changeFilter(todoList.id, 'completed'), [])}
                         variant={todoList.filter === 'completed' ? 'contained' : 'text'}
                 >Completed
                 </Button>
             </div>
         </div>
     )
-}
+})
 
