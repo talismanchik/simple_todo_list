@@ -1,4 +1,4 @@
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from './EditableSpan.module.scss'
 import TextField from "@mui/material/TextField";
 
@@ -8,7 +8,7 @@ type EditableSpanType = {
     isDone?: boolean
 }
 
-export const EditableSpan = ({title, onChange, isDone}:EditableSpanType) => {
+export const EditableSpan = React.memo(({title, onChange, isDone}:EditableSpanType) => {
 
     console.log('EditableSpan called')
     const [editMode, setEditMode] = useState(false)
@@ -44,5 +44,5 @@ export const EditableSpan = ({title, onChange, isDone}:EditableSpanType) => {
            // <input value={inputValue} onBlur={activateViewMode} autoFocus onChange={onChangeHandler}/>
            :<span  className={isDone? s.isDone: ''} onDoubleClick={activateEditeMode}>{title}</span>
     );
-};
+});
 

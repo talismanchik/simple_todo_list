@@ -2,8 +2,8 @@ import {FilterValuesType} from "../../App.tsx";
 import {v1} from "uuid";
 
 const initialState: TodoListType[] = [
-    {id: 'todoListId1', title: 'What to learn', filter: 'all'},
-     {id: 'todoListId2', title: 'What to buy', filter: 'all'},
+    // {id: 'todoListId1', title: 'What to learn', filter: 'all'},
+    //  {id: 'todoListId2', title: 'What to buy', filter: 'all'},
  ]
 export const todoListsReducer = (state: TodoListType[] = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {

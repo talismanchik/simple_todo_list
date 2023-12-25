@@ -47,9 +47,9 @@ export const TodoList = React.memo(({
     const onClickHandler = useCallback((title: string) => {
         addTask(todoList.id, title)
     }, [addTask, todoList.id])
-    const changeTodoListTitleHandler = (title: string)=>{
+    const changeTodoListTitleHandler = useCallback((title: string)=>{
         changeTodoListTitle(todoList.id, title)
-    }
+    }, [todoList.id, changeTodoListTitle])
 
 
     const tasksMapped = tasksForTodolist.map((el) => {
@@ -64,8 +64,7 @@ export const TodoList = React.memo(({
         }
         return (
             <Task key={el.id}
-                  isDone={el.isDone}
-                  title={el.title}
+                  task={el}
                   changeStatus={changeStatusHandler}
                   changeTaskTitle={changeTaskTitleHandler}
                   removeTask={removeTaskHandler}
