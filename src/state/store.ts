@@ -1,13 +1,27 @@
-import {combineReducers, legacy_createStore} from "redux";
+import {Action, combineReducers} from "redux";
 import {tasksReducer} from "./tasksReducer/tasksReducer.ts";
 import {todoListsReducer} from "./todoListsReducer/todoListsReducer.ts";
+import {ThunkDispatch} from "redux-thunk";
+import {configureStore} from "@reduxjs/toolkit";
+
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListsReducer,
 })
 
-export const store = legacy_createStore(rootReducer)
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export const store = configureStore({
+    reducer: rootReducer,
+})
+export const setupStore = ()=> store
+
+export type RootStateType = ReturnType<typeof rootReducer>
+export type AppStoreType = ReturnType<typeof setupStore>
+export type AppDispatchType = AppStoreType['dispatch']
+export type AppThunkDispatchType<Arg = void> = ThunkDispatch<RootStateType, Arg, Action>
+
+
+
+
 // @ts-ignore
 window.store = store

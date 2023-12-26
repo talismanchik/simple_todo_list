@@ -11,7 +11,6 @@ export const AddItemForm = React.memo(({addItem}: AddItemFormType) => {
 
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
-    console.log('AddItemForm called: ' + title)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value)
     }

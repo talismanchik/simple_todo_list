@@ -1,11 +1,11 @@
 import {tasksReducer, TasksStateType} from "./tasksReducer/tasksReducer.ts";
-import {AddTodoListAC, RemoveTodolistAC, todoListsReducer, TodoListType} from "./todoListsReducer/todoListsReducer.ts";
+import {AddTodoListAC, RemoveTodoListAC, todoListsReducer, TodoListDomainType} from "./todoListsReducer/todoListsReducer.ts";
 import {startTasksState} from "./tasksReducer/tasksReducer.test.ts";
 import {todolistID1, todolistID2} from "./todoListsReducer/todoListsReducer.test.ts";
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {}
-    const startTodoListsState: TodoListType[] = []
+    const startTodoListsState: TodoListDomainType[] = []
 
     const action = AddTodoListAC('new todolist')
 
@@ -22,7 +22,7 @@ test('ids should be equals', () => {
 test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = startTasksState
 
-    const action = RemoveTodolistAC(todolistID2)
+    const action = RemoveTodoListAC(todolistID2)
 
     const endState = tasksReducer(startState, action)
 

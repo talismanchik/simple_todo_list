@@ -5,19 +5,20 @@ import {EditableSpan} from "./EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import {TodoListType} from "./state/todoListsReducer/todoListsReducer.ts";
-import {TaskType} from "./state/tasksReducer/tasksReducer.ts";
+import {TodoListDomainType} from "./state/todoListsReducer/todoListsReducer.ts";
+import {TaskDomainType} from "./state/tasksReducer/tasksReducer.ts";
 import React, {useCallback} from "react";
 import {Task} from "./Task.tsx";
+import {TaskStatuses} from "./api/tasksApi.ts";
 
 
 type TodoListPropsType = {
-    todoList: TodoListType
-    tasks: TaskType[]
+    todoList: TodoListDomainType
+    tasks: TaskDomainType[]
     removeTask: (todoListId: string, taskId: string) => void
     changeFilter: (todoListId: string, value: FilterValuesType) => void
     addTask: (todoListId: string, title: string) => void
-    changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
+    changeStatus: (todoListId: string, taskId: string, status: TaskStatuses) => void
     changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
     removeTodoList: (todoListId: string) => void
     changeTodoListTitle: (todoListId: string, value: string) => void
@@ -33,14 +34,13 @@ export const TodoList = React.memo(({
                              removeTodoList,
                              changeTodoListTitle,
                          }: TodoListPropsType) => {
-    console.log("Todolist called")
 
     let tasksForTodolist = tasks
     if (todoList.filter === 'completed') {
-        tasksForTodolist = tasks.filter(el => el.isDone)
+        tasksForTodolist = tasks.filter(el => el.status == TaskStatuses.Completed)
     }
     if (todoList.filter === 'active') {
-        tasksForTodolist = tasks.filter(el => !el.isDone)
+        tasksForTodolist = tasks.filter(el => el.status == TaskStatuses.New)
     }
 
 
@@ -56,8 +56,8 @@ export const TodoList = React.memo(({
         const changeTaskTitleHandler = (title: string) => {
             changeTaskTitle(todoList.id, el.id, title)
         }
-        const changeStatusHandler = (newIsDone: boolean) =>{
-            changeStatus(todoList.id, el.id, newIsDone)
+        const changeStatusHandler = (newStatus: TaskStatuses) =>{
+            changeStatus(todoList.id, el.id, newStatus)
         }
         const removeTaskHandler = ()=>{
             removeTask(todoList.id, el.id)

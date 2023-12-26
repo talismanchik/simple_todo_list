@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {AddTodolistAT, RemoveTodolistAT} from "../todoListsReducer/todoListsReducer.ts";
+import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from "../todoListsReducer/todoListsReducer.ts";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../../api/tasksApi.ts";
 
 const initialState: TasksStateType = {
     // 'todoListId1': [
@@ -28,7 +29,15 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                 [action.todoListId]: [{
                     id: v1(),
                     title: action.newTaskTitle,
-                    isDone: false
+                    status: TaskStatuses.New,
+                    todoListId: action.todoListId,
+                    description: '',
+                    startDate: '',
+                    deadline: '',
+                    addedDate: '',
+                    order: 0,
+                    priority: TodoTaskPriorities.Middle
+
                 }, ...state[action.todoListId]]
             }
         case 'CHANGE_TASK_TITLE':
@@ -46,7 +55,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                 [action.todoListId]:
                     state[action.todoListId]
                         .map(t => t.id === action.taskId
-                            ? {...t, isDone: action.changeTaskStatus}
+                            ? {...t, status: action.changeTaskStatus}
                             : t)
             }
         case "REMOVE_TODOLIST":
@@ -55,6 +64,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return copyTasks
         case 'ADD_TODOLIST':
             return {...state, [action.todoListId]: []}
+        case 'SET_TODOLISTS': {
+            const stateCopy = {...state}
+            action.todoLists.forEach((tl) => {
+                stateCopy[tl.id] = []
+            })
+            return stateCopy;
+        }
         default:
             return state
     }
@@ -67,6 +83,7 @@ type ActionsType =
     | ChangeTaskStatusAT
     | AddTodolistAT
     | RemoveTodolistAT
+    | SetTodolistsAT
 
 //  ACTION TYPES
 export type RemoveTaskAT = {
@@ -89,7 +106,7 @@ export type ChangeTaskStatusAT = {
     type: 'CHANGE_TASK_STATUS'
     todoListId: string
     taskId: string
-    changeTaskStatus: boolean
+    changeTaskStatus: TaskStatuses
 }
 
 //  ACTION CREATORS
@@ -102,16 +119,12 @@ export const AddTaskAC = (todoListId: string, newTaskTitle: string): AddTaskAT =
 export const ChangeTaskTitleAC = (todoListId: string, taskId: string, changeTaskTitle: string): ChangeTaskTitleAT => {
     return {type: 'CHANGE_TASK_TITLE', todoListId, taskId, changeTaskTitle}
 }
-export const ChangeTaskStatusAC = (todoListId: string, taskId: string, changeTaskStatus: boolean): ChangeTaskStatusAT => {
+export const ChangeTaskStatusAC = (todoListId: string, taskId: string, changeTaskStatus: TaskStatuses): ChangeTaskStatusAT => {
     return {type: 'CHANGE_TASK_STATUS', todoListId, taskId, changeTaskStatus}
 }
 
 export type TasksStateType = {
-    [key: string]: TaskType[]
+    [key: string]: TaskDomainType[]
 }
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+export type TaskDomainType = TaskType
