@@ -6,8 +6,8 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {Paper} from "@mui/material";
 import {
-    AddTodoListAC, ChangeTodoListFilterAC, ChangeTodoListTitleAC, fetchTodoListsTC,
-    RemoveTodoListAC, TodoListDomainType,
+    AddTodoListAC, ChangeTodoListFilterAC, ChangeTodoListTitleAC,
+    RemoveTodoListAC, setTodoLists, TodoListDomainType,
 } from "./state/todoListsReducer/todoListsReducer.ts";
 import {
     AddTaskAC, ChangeTaskStatusAC,
@@ -19,8 +19,13 @@ import {TaskStatuses} from "./api/tasksApi.ts";
 import {useAppDispatch, useAppSelector} from "./state/hooks/redux.ts";
 
 
+
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
+export const startState: TodoListDomainType[] = [
+    {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
+    {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''}
+]
 
 export const App = () => {
 
@@ -30,7 +35,8 @@ export const App = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-     dispatch(fetchTodoListsTC)
+
+      dispatch(setTodoLists({todoLists: startState}))
     }, [])
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {

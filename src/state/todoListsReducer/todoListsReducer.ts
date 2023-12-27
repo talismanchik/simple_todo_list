@@ -2,10 +2,49 @@ import {FilterValuesType} from "../../App.tsx";
 import {v1} from "uuid";
 import {todoListsAPI, TodoListType} from "../../api/todoListsApi.ts";
 import {Dispatch} from "redux";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
-const initialState: TodoListDomainType[] = []
-export const todoListsReducer = (state: TodoListDomainType[] = initialState, action: ActionsType): TodoListDomainType[] => {
+const initialState: TodoListDomainType[] = [
+    {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
+    {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''},
+]
+
+const slice = createSlice({
+    name: 'todolists',
+    initialState: initialState,
+    reducers: {
+        removeTodoList(state, action: PayloadAction<{ todoListId: string }>) {
+            const index = state.findIndex(el => el.id === action.payload.todoListId)
+            index > -1 && state.splice(index, 1)
+        },
+        addTodoList(state, action: PayloadAction<{ todoList: TodoListType }>) {
+            state.unshift({...action.payload.todoList, filter: 'all'})
+        },
+        changeTodoListTitle(state, action: PayloadAction<{ todoListId: string, title: string }>) {
+            const index = state.findIndex(el => el.id === action.payload.todoListId)
+            state[index].title = action.payload.title
+        },
+        changeTodoListFilter(state, action: PayloadAction<{ todoListId: string, filter: FilterValuesType }>) {
+            const index = state.findIndex(el => el.id === action.payload.todoListId)
+            state[index].filter = action.payload.filter
+        },
+        setTodoLists(_, action: PayloadAction<{ todoLists: TodoListType[] }>) {
+            return action.payload.todoLists.map(el => ({...el, filter: 'all'}))
+        },
+    }
+})
+
+export const todoListsReducer = slice.reducer
+export const {
+    removeTodoList,
+    addTodoList,
+    changeTodoListTitle,
+    changeTodoListFilter,
+    setTodoLists
+} = slice.actions
+
+export const todoListsReducer1 = (state: TodoListDomainType[] = initialState, action: ActionsType): TodoListDomainType[] => {
     switch (action.type) {
         case "REMOVE_TODOLIST":
             return state.filter(tl => tl.id != action.todoListId)
@@ -69,11 +108,11 @@ export const setTodoListsAC = (todoLists: TodoListType[]): SetTodolistsAT => {
 
 // THUNKS
 export const fetchTodoListsTC = () => (dispatch: ThunkDispatch) => {
-        todoListsAPI.getTodoLists()
-            .then((res) => {
-                dispatch(setTodoListsAC(res.data))
-            })
-    }
+    todoListsAPI.getTodoLists()
+        .then((res) => {
+            dispatch(setTodoListsAC(res.data))
+        })
+}
 
 
 type ActionsType =
