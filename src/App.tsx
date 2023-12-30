@@ -94,7 +94,6 @@ export const App = () => {
                 <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
-                рш
                 <Grid container spacing={3}>
                     {mappedTodoLists}
                 </Grid>
