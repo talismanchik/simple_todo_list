@@ -1,21 +1,69 @@
 import {v1} from "uuid";
 import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from "../todoListsReducer/todoListsReducer.ts";
 import {TaskStatuses, TaskType, TodoTaskPriorities} from "../../api/tasksApi.ts";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {action} from "@storybook/addon-actions";
 
-const initialState: TasksStateType = {
-    // 'todoListId1': [
-    //         {id: v1(), title: 'CSS', isDone: true},
-    //         {id: v1(), title: 'React', isDone: false},
-    //         {id: v1(), title: 'TS', isDone: true},
-    //     ],
-    //     'todoListId2': [
-    //         {id: v1(), title: 'bread', isDone: true},
-    //         {id: v1(), title: 'milk', isDone: false},
-    //         {id: v1(), title: 'beef', isDone: true},
-    //         {id: v1(), title: 'sugar', isDone: true},
-    //     ],
-}
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType = {}
+
+const slice = createSlice({
+    name: 'tasks',
+    initialState: initialState,
+    reducers: {
+        removeTask(state, action: PayloadAction<{ todoListId: string, taskId: string }>) {
+
+        },
+        addTask(state, action: PayloadAction<{ todoListId: string, taskTitle: string }>) {
+            state[action.payload.todoListId].unshift({
+                id: v1(),
+                title: action.payload.taskTitle,
+                status: TaskStatuses.New,
+                todoListId: action.payload.todoListId,
+                description: '',
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TodoTaskPriorities.Middle
+            })
+        },
+        changeTaskTitle(state, action: PayloadAction<{ todoListId: string, taskId: string, changeTaskTitle: string }>) {
+            state[action.payload.todoListId].map(t =>
+                t.todoListId === action.payload.todoListId
+                    ? {
+                        ...t,
+                        title: action.payload.changeTaskTitle
+                    }
+                    : t)
+        },
+        changeTaskStatus(state, action: PayloadAction<{
+            todoListId: string,
+            taskId: string,
+            changeTaskStatus: TaskStatuses
+        }>) {
+            state[action.payload.todoListId].map(t =>
+                t.todoListId === action.payload.todoListId
+                    ? {
+                        ...t,
+                        status: action.payload.changeTaskStatus
+                    }
+                    : t)
+        },
+        addTodoList(state, action: PayloadAction<{}>) {
+
+        },
+        removeTodoList(state, action: PayloadAction<{}>) {
+
+        },
+        setTodoLists(state, action: PayloadAction<{}>) {
+
+        },
+    }
+})
+
+export const tasksReducer = slice.reducer
+export const {} = slice.actions
+export const tasksReducer1 = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK':
             return {

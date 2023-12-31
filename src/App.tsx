@@ -19,7 +19,6 @@ import {TaskStatuses} from "./api/tasksApi.ts";
 import {useAppDispatch, useAppSelector} from "./state/hooks/redux.ts";
 
 
-
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
 export const startState: TodoListDomainType[] = [
@@ -36,7 +35,7 @@ export const App = () => {
 
     useEffect(() => {
 
-      dispatch(setTodoLists({todoLists: startState}))
+        dispatch(setTodoLists({todoLists: startState}))
     }, [])
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {
@@ -94,7 +93,6 @@ export const App = () => {
                 <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
-                fd
                 <Grid container spacing={3}>
                     {mappedTodoLists}
                 </Grid>

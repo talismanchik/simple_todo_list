@@ -6,8 +6,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 const initialState: TodoListDomainType[] = [
-    {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
-    {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''},
 ]
 
 const slice = createSlice({
