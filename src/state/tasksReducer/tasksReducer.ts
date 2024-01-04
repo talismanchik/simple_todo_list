@@ -1,8 +1,14 @@
 import {v1} from "uuid";
-import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from "../todoListsReducer/todoListsReducer.ts";
+import {
+    addTodoList,
+    AddTodolistAT,
+    removeTodoList,
+    RemoveTodolistAT, setTodoLists,
+    SetTodolistsAT
+} from "../todoListsReducer/todoListsReducer.ts";
 import {TaskStatuses, TaskType, TodoTaskPriorities} from "../../api/tasksApi.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {action} from "@storybook/addon-actions";
+
 
 const initialState: TasksStateType = {}
 
@@ -11,7 +17,9 @@ const slice = createSlice({
     initialState: initialState,
     reducers: {
         removeTask(state, action: PayloadAction<{ todoListId: string, taskId: string }>) {
-
+            const tasks = state[action.payload.todoListId]
+            const index = tasks.findIndex(t => t.id === action.payload.taskId)
+            index > -1 && tasks.splice(index, 1)
         },
         addTask(state, action: PayloadAction<{ todoListId: string, taskTitle: string }>) {
             state[action.payload.todoListId].unshift({
@@ -49,20 +57,22 @@ const slice = createSlice({
                     }
                     : t)
         },
-        addTodoList(state, action: PayloadAction<{}>) {
-
-        },
-        removeTodoList(state, action: PayloadAction<{}>) {
-
-        },
-        setTodoLists(state, action: PayloadAction<{}>) {
-
-        },
+    },
+    extraReducers: builder => {
+        builder.addCase(addTodoList, (state, action)=>{
+            state[action.payload.todoList.id] = []
+        });
+        builder.addCase(removeTodoList, (state, action) => {
+            delete state[action.payload.todoListId]
+        });
+        builder.addCase(setTodoLists, (state, action) => {
+            action.payload.todoLists.forEach(el => state[el.id] = [])
+        })
     }
 })
 
 export const tasksReducer = slice.reducer
-export const {} = slice.actions
+export const {removeTask, addTask, changeTaskTitle, changeTaskStatus} = slice.actions
 export const tasksReducer1 = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK':
