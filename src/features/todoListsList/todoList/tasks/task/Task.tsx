@@ -1,10 +1,10 @@
 import Checkbox from "@mui/material/Checkbox";
-import {EditableSpan} from "./EditableSpan.tsx";
+import {EditableSpan} from "../../../../../components/aditableSpan/EditableSpan.tsx";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ChangeEvent, useCallback} from "react";
-import {TaskDomainType} from "./state/tasksReducer/tasksReducer.ts";
-import {TaskStatuses} from "./api/tasksApi.ts";
+import {TaskDomainType} from "../../../../../state/tasksReducer/tasksReducer.ts";
+import {TaskStatuses} from "../../../../../api/tasksApi.ts";
 
 
 type TaskPropsType = {

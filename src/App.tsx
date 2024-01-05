@@ -1,6 +1,6 @@
 import s from './App.module.scss'
-import {TodoList} from "./TodoList.tsx";
-import {AddItemForm} from "./AddItemForm.tsx";
+import {TodoList} from "./features/todoListsList/todoList/TodoList.tsx";
+import {AddItemForm} from "./components/addItemForm/AddItemForm.tsx";
 import {Header} from "./layout/header/header.tsx";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -8,17 +8,14 @@ import {Paper} from "@mui/material";
 import {
     addTodoList,
     changeTodoListFilter,
-    changeTodoListTitle,
+    changeTodoListTitle, fetchTodoListsTC, FilterValuesType,
     removeTodoList,
-    setTodoLists,
     TodoListDomainType,
 } from "./state/todoListsReducer/todoListsReducer.ts";
 import {
-    addTask,
+    addTaskTC,
     changeTaskStatus,
-    changeTaskTitle,
-    removeTask,
-    TasksStateType,
+    changeTaskTitle, removeTaskTC,
 } from "./state/tasksReducer/tasksReducer.ts";
 import {useCallback, useEffect} from "react";
 import {TaskStatuses} from "./api/tasksApi.ts";
@@ -27,29 +24,28 @@ import {TodoListType} from "./api/todoListsApi.ts";
 import {v1} from "uuid";
 
 
-export type FilterValuesType = 'all' | 'completed' | 'active'
 
-export const startState: TodoListDomainType[] = [
-    {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
-    {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''}
-]
+
+// export const startState: TodoListDomainType[] = [
+//     {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
+//     {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''}
+// ]
 
 export const App = () => {
 
 
     const todoLists = useAppSelector<TodoListDomainType[]>(state => state.todoLists)
-    const tasks = useAppSelector<TasksStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(setTodoLists({todoLists: startState}))
+        dispatch(fetchTodoListsTC())
     }, [])
 
-    const removeTaskF = useCallback((todoListId: string, taskId: string) => {
-        dispatch(removeTask({todoListId, taskId}))
+    const removeTask = useCallback((todoListId: string, taskId: string) => {
+        dispatch(removeTaskTC(todoListId, taskId))
     }, [])
     const addTaskF = useCallback((todoListId: string, title: string) => {
-        dispatch(addTask({todoListId, taskTitle: title}))
+        dispatch(addTaskTC(todoListId, title))
     }, [])
     const changeTaskTitleF = useCallback((todoListId: string, taskId: string, title: string) => {
         dispatch(changeTaskTitle({todoListId, taskId, changeTaskTitle: title}))
@@ -83,8 +79,7 @@ export const App = () => {
             <Paper style={{padding: '10px'}}>
                 <TodoList
                     todoList={tdl}
-                    tasks={tasks[tdl.id]}
-                    removeTask={removeTaskF}
+                    removeTask={removeTask}
                     addTask={addTaskF}
                     changeTaskTitle={changeTaskTitleF}
                     changeStatus={changeStatusF}
