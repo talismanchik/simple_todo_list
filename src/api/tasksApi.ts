@@ -37,8 +37,8 @@ export type TaskType = {
     status: TaskStatuses
     todoListId: string
     description: string
-    startDate: string | null
-    deadline: string | null
+    startDate: string
+    deadline: string
     addedDate: string
     order: number
     priority: TodoTaskPriorities
@@ -51,8 +51,8 @@ export type GetTaskResponseType = {
 export type UpdateTaskModelType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TodoTaskPriorities
     startDate: string
     deadline: string
 }

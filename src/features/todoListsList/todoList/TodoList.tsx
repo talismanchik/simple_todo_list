@@ -8,7 +8,7 @@ import {
     FilterValuesType,
     TodoListDomainType
 } from "../../../state/todoListsReducer/todoListsReducer.ts";
-import {fetchTasksTC, TaskDomainType} from "../../../state/tasksReducer/tasksReducer.ts";
+import {fetchTasksTC, TaskDomainType, UpdateDomainTaskModelType} from "../../../state/tasksReducer/tasksReducer.ts";
 import React, {useCallback, useEffect} from "react";
 import {Task} from "./tasks/task/Task.tsx";
 import {TaskStatuses} from "../../../api/tasksApi.ts";
@@ -20,8 +20,7 @@ type TodoListPropsType = {
     removeTask: (todoListId: string, taskId: string) => void
     changeFilter: (todoListId: string, value: FilterValuesType) => void
     addTask: (todoListId: string, title: string) => void
-    changeStatus: (todoListId: string, taskId: string, status: TaskStatuses) => void
-    changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
+    updateTask: (todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) => void
     removeTodoList: (todoListId: string) => void
     changeTodoListTitle: (todoListId: string, value: string) => void
 }
@@ -31,8 +30,7 @@ export const TodoList = React.memo(({
                                         removeTask,
                                         changeFilter,
                                         addTask,
-                                        changeStatus,
-                                        changeTaskTitle,
+                                        updateTask,
                                         removeTodoList,
                                         changeTodoListTitle,
                                     }: TodoListPropsType) => {
@@ -61,10 +59,10 @@ export const TodoList = React.memo(({
 
     const tasksMapped = tasksForTodolist.map((el) => {
         const changeTaskTitleHandler = (title: string) => {
-            changeTaskTitle(todoList.id, el.id, title)
+            updateTask(todoList.id, el.id, {title})
         }
         const changeStatusHandler = (newStatus: TaskStatuses) => {
-            changeStatus(todoList.id, el.id, newStatus)
+            updateTask(todoList.id, el.id, {status: newStatus})
         }
         const removeTaskHandler = () => {
             removeTask(todoList.id, el.id)

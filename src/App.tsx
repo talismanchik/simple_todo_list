@@ -6,30 +6,17 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {Paper} from "@mui/material";
 import {
-    addTodoList,
-    changeTodoListFilter,
-    changeTodoListTitle, fetchTodoListsTC, FilterValuesType,
-    removeTodoList,
+    addTodoListsTC, changeTodoListFilter,
+    changeTodoListTitleTC, fetchTodoListsTC,
+    FilterValuesType, removeTodoListsTC,
     TodoListDomainType,
 } from "./state/todoListsReducer/todoListsReducer.ts";
 import {
-    addTaskTC,
-    changeTaskStatus,
-    changeTaskTitle, removeTaskTC,
+    addTaskTC, removeTaskTC, UpdateDomainTaskModelType, updateTaskTC,
 } from "./state/tasksReducer/tasksReducer.ts";
 import {useCallback, useEffect} from "react";
-import {TaskStatuses} from "./api/tasksApi.ts";
 import {useAppDispatch, useAppSelector} from "./state/hooks/redux.ts";
-import {TodoListType} from "./api/todoListsApi.ts";
-import {v1} from "uuid";
 
-
-
-
-// export const startState: TodoListDomainType[] = [
-//     {id: 'todolistID1', title: "What to learn", filter: "all", order: 0, addedDate: ''},
-//     {id: 'todolistID2', title: "What to buy", filter: "all", order: 0, addedDate: ''}
-// ]
 
 export const App = () => {
 
@@ -44,29 +31,20 @@ export const App = () => {
     const removeTask = useCallback((todoListId: string, taskId: string) => {
         dispatch(removeTaskTC(todoListId, taskId))
     }, [])
-    const addTaskF = useCallback((todoListId: string, title: string) => {
+    const addTask = useCallback((todoListId: string, title: string) => {
         dispatch(addTaskTC(todoListId, title))
     }, [])
-    const changeTaskTitleF = useCallback((todoListId: string, taskId: string, title: string) => {
-        dispatch(changeTaskTitle({todoListId, taskId, changeTaskTitle: title}))
+    const updateTask = useCallback((todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) => {
+        dispatch(updateTaskTC(todoListId, taskId, changeElement))
     }, [])
-    const changeStatusF = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatus({todoListId, taskId, changeTaskStatus: status}))
+    const removeTodoList = useCallback((todoListId: string) => {
+        dispatch(removeTodoListsTC(todoListId))
     }, [])
-    const removeTodoListF = useCallback((todoListId: string) => {
-        dispatch(removeTodoList({todoListId}))
+    const addTodoList = useCallback((title: string) => {
+        dispatch(addTodoListsTC(title))
     }, [])
-    const addTodoListF = useCallback((title: string) => {
-        const list: TodoListType = {
-            id: v1(),
-            title: title,
-            addedDate: '',
-            order: 1
-        }
-        dispatch(addTodoList({todoList: list}))
-    }, [])
-    const changeTodoListTitleF = useCallback((todoListId: string, value: string) => {
-        dispatch(changeTodoListTitle({todoListId, title: value}))
+    const changeTodoListTitle = useCallback((todoListId: string, value: string) => {
+        dispatch(changeTodoListTitleTC(todoListId, value))
     }, [])
     const changeFilterF = useCallback((todoListId: string, value: FilterValuesType) => {
         dispatch(changeTodoListFilter({todoListId, filter: value}))
@@ -80,11 +58,10 @@ export const App = () => {
                 <TodoList
                     todoList={tdl}
                     removeTask={removeTask}
-                    addTask={addTaskF}
-                    changeTaskTitle={changeTaskTitleF}
-                    changeStatus={changeStatusF}
-                    removeTodoList={removeTodoListF}
-                    changeTodoListTitle={changeTodoListTitleF}
+                    addTask={addTask}
+                    updateTask={updateTask}
+                    removeTodoList={removeTodoList}
+                    changeTodoListTitle={changeTodoListTitle}
                     changeFilter={changeFilterF}
                 />
             </Paper>
@@ -97,7 +74,7 @@ export const App = () => {
             <Header/>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodoListF}/>
+                    <AddItemForm addItem={addTodoList}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {mappedTodoLists}

@@ -3,9 +3,10 @@ import {
     removeTodoList,
     setTodoLists,
 } from "../todoListsReducer/todoListsReducer.ts";
-import {tasksAPI, TaskStatuses, TaskType} from "../../api/tasksApi.ts";
+import {tasksAPI, TaskStatuses, TaskType, UpdateTaskModelType} from "../../api/tasksApi.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
+import {RootStateType} from "../store.ts";
 
 
 const initialState: TasksStateType = {}
@@ -22,7 +23,22 @@ const slice = createSlice({
         addTask(state, action: PayloadAction<{ task: TaskType }>) {
             state[action.payload.task.todoListId].unshift(action.payload.task)
         },
-        changeTaskTitle(state, action: PayloadAction<{ todoListId: string, taskId: string, changeTaskTitle: string }>) {
+        updateTask(state, action: PayloadAction<{
+            todoListId: string,
+            taskId: string,
+            model: UpdateDomainTaskModelType
+        }>) {
+            const tasks = state[action.payload.todoListId]
+            const index = tasks.findIndex(t => t.id === action.payload.taskId)
+            if (index > -1) {
+                tasks[index] = {...tasks[index], ...action.payload.model}
+            }
+        },
+        changeTaskTitle(state, action: PayloadAction<{
+            todoListId: string,
+            taskId: string,
+            changeTaskTitle: string
+        }>) {
             state[action.payload.todoListId].map(t =>
                 t.id === action.payload.taskId
                     ? t.title = action.payload.changeTaskTitle
@@ -62,6 +78,7 @@ export const {
     changeTaskTitle,
     changeTaskStatus,
     fetchTasks,
+    updateTask,
 } = slice.actions
 
 //THUNKS
@@ -79,11 +96,31 @@ export const removeTaskTC = (todoListId: string, taskId: string) => (dispatch: T
 }
 export const addTaskTC = (todoListId: string, title: string) => (dispatch: ThunkDispatch) => {
     tasksAPI.createTasks(todoListId, title)
-        .then(res=>{
+        .then(res => {
             console.log(res.data.data.item)
             dispatch(addTask({task: res.data.data.item}))
         })
 }
+export const updateTaskTC = (todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) =>
+    (dispatch: ThunkDispatch, getState: () => RootStateType) => {
+        const task = getState().tasks[todoListId].find(t => t.id === taskId)
+
+        if (!task) return
+        const model: UpdateTaskModelType = {
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline,
+            ...changeElement
+        }
+
+        tasksAPI.updateTasks(todoListId, taskId, model)
+            .then(() => {
+                dispatch(updateTask({todoListId, taskId, model: changeElement}))
+            })
+    }
 
 // TYPES
 type TasksActionType =
@@ -95,10 +132,19 @@ type TasksActionType =
     | ReturnType<typeof addTodoList>
     | ReturnType<typeof removeTodoList>
     | ReturnType<typeof setTodoLists>
+    | ReturnType<typeof updateTask>
 
 
 export type TasksStateType = {
     [key: string]: TaskDomainType[]
+}
+export type UpdateDomainTaskModelType = {
+    title?: string
+    description?: string
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
 }
 
 export type TaskDomainType = TaskType

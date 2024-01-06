@@ -3,8 +3,7 @@ import {Dispatch} from "redux";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
-const initialState: TodoListDomainType[] = [
-]
+const initialState: TodoListDomainType[] = []
 
 const slice = createSlice({
     name: 'todolists',
@@ -41,13 +40,29 @@ export const {
 } = slice.actions
 
 
-
-
 // THUNKS
 export const fetchTodoListsTC = () => (dispatch: ThunkDispatch) => {
     todoListsAPI.getTodoLists()
         .then((res) => {
             dispatch(setTodoLists({todoLists: res.data}))
+        })
+}
+export const addTodoListsTC = (title: string) => (dispatch: ThunkDispatch) => {
+    todoListsAPI.createTodoList(title)
+        .then((res) => {
+            dispatch(addTodoList({todoList: res.data.data.item}))
+        })
+}
+export const removeTodoListsTC = (todoListId: string) => (dispatch: ThunkDispatch) => {
+    todoListsAPI.deleteTodoList(todoListId)
+        .then(() => {
+            dispatch(removeTodoList({todoListId}))
+        })
+}
+export const changeTodoListTitleTC = (todoListId: string, title: string) => (dispatch: ThunkDispatch) => {
+    todoListsAPI.updateTodoList(todoListId, title)
+        .then(() => {
+            dispatch(changeTodoListTitle({todoListId, title}))
         })
 }
 
