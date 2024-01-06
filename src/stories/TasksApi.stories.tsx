@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {TodoListType} from "./todoListsApi.ts";
-import {tasksAPI, UpdateTaskModelType} from "./tasksApi.ts";
+import {TodoListType} from "../api/todoListsApi.ts";
+import {tasksAPI, UpdateTaskModelType} from "../api/tasksApi.ts";
 
 
 

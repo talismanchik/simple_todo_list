@@ -13,11 +13,16 @@ type TaskPropsType = {
     changeTaskTitle: (title: string) => void
     removeTask: () => void
 }
-export const Task = ({task, changeStatus, changeTaskTitle, removeTask}: TaskPropsType) => {
+export const Task = ({
+                         task,
+                         changeStatus,
+                         changeTaskTitle,
+                         removeTask
+                     }: TaskPropsType) => {
 
     const onCheckedChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const newIsDoneValue = e.currentTarget.checked
-        changeStatus(newIsDoneValue? TaskStatuses.Completed : TaskStatuses.New)
+        changeStatus(newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New)
     }
 
     return (
@@ -26,11 +31,11 @@ export const Task = ({task, changeStatus, changeTaskTitle, removeTask}: TaskProp
                       color={'primary'}
                       onChange={onCheckedChangeHandler}
             />
-            <EditableSpan isDone={task.status === TaskStatuses.Completed} title={task.title} onChange={useCallback(changeTaskTitle, [])}/>
+            <EditableSpan isDone={task.status === TaskStatuses.Completed} title={task.title}
+                          onChange={useCallback(changeTaskTitle, [])}/>
             <IconButton onClick={removeTask}>
                 <DeleteIcon/>
             </IconButton>
         </li>
     );
 };
-

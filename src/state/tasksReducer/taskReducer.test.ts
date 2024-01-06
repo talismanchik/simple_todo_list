@@ -1,11 +1,9 @@
 import {
     addTask,
-    changeTaskStatus,
-    changeTaskTitle,
     fetchTasks,
     removeTask,
     tasksReducer,
-    TasksStateType
+    TasksStateType, updateTask
 } from "./tasksReducer.ts";
 import {TaskStatuses, TodoTaskPriorities} from "../../api/tasksApi.ts";
 import {addTodoList, removeTodoList, setTodoLists} from "../todoListsReducer/todoListsReducer.ts";
@@ -178,32 +176,50 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
     })
 })
 test(`'addTask reducer'. Correct task should be added to correct array`, () => {
+    const title = 'new title'
+    const action = addTask({
 
-    const newTitle = 'new title'
-    const action = addTask({todoListId: 'todolistId1', taskTitle: newTitle})
+        task: {
+            todoListId: 'todolistId2',
+            title: title,
+            status: TaskStatuses.New,
+            addedDate: '',
+            deadline: '',
+            description: '',
+            order: 0,
+            priority: 0,
+            startDate: '',
+            id: '25'
+        }
+    })
 
     const endState = tasksReducer(startTaskState, action)
 
-    expect(endState['todolistId1'].length).toBe(4)
-    expect(endState['todolistId2'].length).toBe(3)
-    expect(endState['todolistId1'][0].id).toBeDefined()
-    expect(endState['todolistId1'][0].title).toBe(newTitle)
+    expect(endState['todolistId2'].length).toBe(4)
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'][0].id).toBeDefined()
+    expect(endState['todolistId2'][0].title).toBe(title)
     expect(endState['todolistId1'][0].status).toBe(TaskStatuses.New)
 })
-test(`'changeTaskStatus reducer'. Status of specified task should be changed`, () => {
+test(`'updateTask reducer'. Status of specified task should be changed`, () => {
 
-    const action = changeTaskStatus({todoListId: 'todolistId1', taskId: '1', changeTaskStatus: TaskStatuses.Completed})
+    const action = updateTask({
+        todoListId: 'todolistId1',
+        taskId: '1',
+        model: {status: TaskStatuses.Completed}})
 
     const endState = tasksReducer(startTaskState, action)
 
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId1'][0].status).toBe(TaskStatuses.Completed)
 })
-test(`'changeTaskTitle reducer'. Title of specified task should be changed`, () => {
+test(`'updateTask reducer'. Title of specified task should be changed`, () => {
 
     const newTitle = 'new title'
-    const action = changeTaskTitle({todoListId: 'todolistId1', taskId: '1', changeTaskTitle: newTitle})
-
+    const action = updateTask({
+        todoListId: 'todolistId1',
+        taskId: '1',
+        model: {title: newTitle}})
     const endState = tasksReducer(startTaskState, action)
 
     expect(endState['todolistId1'].length).toBe(3)

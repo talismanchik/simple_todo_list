@@ -3,11 +3,13 @@ import {tasksReducer} from "./tasksReducer/tasksReducer.ts";
 import {todoListsReducer} from "./todoListsReducer/todoListsReducer.ts";
 import {thunk, ThunkDispatch} from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
+import {appReducer} from "./appReducer/appReducer.ts";
 
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListsReducer,
+    app: appReducer,
 })
 
 export const store = configureStore({

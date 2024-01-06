@@ -4,8 +4,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
+import LinearProgress from "@mui/material/LinearProgress";
+import {useAppSelector} from "../../state/hooks/redux.ts";
+import {RequestStatusType} from "../../state/appReducer/appReducer.ts";
 
 export const Header = () => {
+    const status = useAppSelector<RequestStatusType>(state=> state.app.status)
     return (
         <AppBar position={'static'}>
             <Toolbar>
@@ -23,6 +27,7 @@ export const Header = () => {
                 </Typography>
                 <Button color="inherit">Login</Button>
             </Toolbar>
+            {status === 'loading' && <LinearProgress/>}
         </AppBar>
     );
 };

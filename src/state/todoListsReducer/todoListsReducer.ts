@@ -1,6 +1,7 @@
 import {todoListsAPI, TodoListType} from "../../api/todoListsApi.ts";
 import {Dispatch} from "redux";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {setAppStatus} from "../appReducer/appReducer.ts";
 
 
 const initialState: TodoListDomainType[] = []
@@ -42,27 +43,35 @@ export const {
 
 // THUNKS
 export const fetchTodoListsTC = () => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.getTodoLists()
         .then((res) => {
             dispatch(setTodoLists({todoLists: res.data}))
+            dispatch(setAppStatus({status: "succeeded"}))
         })
 }
 export const addTodoListsTC = (title: string) => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.createTodoList(title)
         .then((res) => {
             dispatch(addTodoList({todoList: res.data.data.item}))
+            dispatch(setAppStatus({status: "succeeded"}))
         })
 }
 export const removeTodoListsTC = (todoListId: string) => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.deleteTodoList(todoListId)
         .then(() => {
             dispatch(removeTodoList({todoListId}))
+            dispatch(setAppStatus({status: "succeeded"}))
         })
 }
 export const changeTodoListTitleTC = (todoListId: string, title: string) => (dispatch: ThunkDispatch) => {
+    dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.updateTodoList(todoListId, title)
         .then(() => {
             dispatch(changeTodoListTitle({todoListId, title}))
+            dispatch(setAppStatus({status: "succeeded"}))
         })
 }
 
@@ -73,6 +82,7 @@ type TodoListActionType =
     | ReturnType<typeof changeTodoListTitle>
     | ReturnType<typeof changeTodoListFilter>
     | ReturnType<typeof setTodoLists>
+    | ReturnType<typeof setAppStatus>
 
 export type TodoListDomainType = TodoListType & {
     filter: FilterValuesType
