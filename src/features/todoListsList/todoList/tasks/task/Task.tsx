@@ -5,6 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {ChangeEvent, useCallback} from "react";
 import {TaskDomainType} from "../../../../../state/tasksReducer/tasksReducer.ts";
 import {TaskStatuses} from "../../../../../api/tasksApi.ts";
+import React from 'react'
+
 
 
 type TaskPropsType = {
@@ -12,12 +14,14 @@ type TaskPropsType = {
     changeStatus: (newIsDone: TaskStatuses) => void
     changeTaskTitle: (title: string) => void
     removeTask: () => void
+    disabled: boolean
 }
-export const Task = ({
+export const Task = React.memo(({
                          task,
                          changeStatus,
                          changeTaskTitle,
-                         removeTask
+                         removeTask,
+                         disabled,
                      }: TaskPropsType) => {
 
     const onCheckedChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,12 +34,13 @@ export const Task = ({
             <Checkbox checked={task.status === TaskStatuses.Completed}
                       color={'primary'}
                       onChange={onCheckedChangeHandler}
+                      disabled={disabled}
             />
             <EditableSpan isDone={task.status === TaskStatuses.Completed} title={task.title}
-                          onChange={useCallback(changeTaskTitle, [])}/>
-            <IconButton onClick={removeTask}>
+                          onChange={useCallback(changeTaskTitle, [])} disabled={disabled}/>
+            <IconButton onClick={removeTask} disabled={disabled}>
                 <DeleteIcon/>
             </IconButton>
         </li>
     );
-};
+});

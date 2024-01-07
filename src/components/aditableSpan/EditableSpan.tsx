@@ -6,16 +6,17 @@ type EditableSpanType = {
     title: string
     onChange: (newTitle: string)=> void
     isDone?: boolean
+    disabled: boolean
 }
 
-export const EditableSpan = React.memo(({title, onChange, isDone}:EditableSpanType) => {
+export const EditableSpan = React.memo(({title, onChange, isDone, disabled}:EditableSpanType) => {
 
     const [editMode, setEditMode] = useState(false)
     const [inputValue, setInputValue] = useState(title)
 
 
     const activateEditeMode = ()=> {
-        setEditMode(true)
+        !disabled &&  setEditMode(true)
     }
     const activateViewMode = () => {
         setEditMode(false)

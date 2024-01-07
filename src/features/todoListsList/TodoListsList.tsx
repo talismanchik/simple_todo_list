@@ -3,17 +3,19 @@ import {Paper} from "@mui/material";
 import {TodoList} from "./todoList/TodoList.tsx";
 import {useAppDispatch, useAppSelector} from "../../state/hooks/redux.ts";
 import {
+    addTodoListsTC,
     changeTodoListFilter, changeTodoListTitleTC,
     fetchTodoListsTC, FilterValuesType,
     removeTodoListsTC, TodoListDomainType
 } from "../../state/todoListsReducer/todoListsReducer.ts";
-import {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {
     addTaskTC, removeTaskTC,
     UpdateDomainTaskModelType, updateTaskTC
 } from "../../state/tasksReducer/tasksReducer.ts";
+import {AddItemForm} from "../../components/addItemForm/AddItemForm.tsx";
 
-export const TodoListsList = () => {
+export const TodoListsList = React.memo(() => {
     const todoLists = useAppSelector<TodoListDomainType[]>(state => state.todoLists)
     const dispatch = useAppDispatch()
 
@@ -39,6 +41,10 @@ export const TodoListsList = () => {
     const changeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
         dispatch(changeTodoListFilter({todoListId, filter: value}))
     }, [])
+    const addTodoList = useCallback((title: string) => {
+        dispatch(addTodoListsTC(title))
+    }, [])
+
 
     const mappedTodoLists = todoLists.map(tdl => {
         return <Grid item key={tdl.id}>
@@ -56,8 +62,14 @@ export const TodoListsList = () => {
         </Grid>
     })
     return (
-        <Grid container spacing={3}>
-            {mappedTodoLists}
+        <>
+            <Grid container style={{padding: '20px'}}>
+            <AddItemForm addItem={addTodoList}/>
         </Grid>
+            <Grid container spacing={3}>
+                {mappedTodoLists}
+            </Grid>
+        </>
+
     );
-};
+});

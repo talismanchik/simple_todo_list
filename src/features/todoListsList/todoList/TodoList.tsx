@@ -36,7 +36,7 @@ export const TodoList = React.memo(({
         dispatch(fetchTasksTC(todoList.id))
     }, [])
 
-    const onClickHandler = useCallback((title: string) => {
+    const addTaskHandler = useCallback((title: string) => {
         addTask(todoList.id, title)
     }, [addTask, todoList.id])
     const changeTodoListTitleHandler = useCallback((title: string) => {
@@ -47,12 +47,12 @@ export const TodoList = React.memo(({
         <div className={s.todoListContainer}>
             <div className={s.header}>
                 <h3>
-                    <EditableSpan title={todoList.title} onChange={changeTodoListTitleHandler}/>
-                    <IconButton onClick={() => removeTodoList(todoList.id)}>
+                    <EditableSpan title={todoList.title} onChange={changeTodoListTitleHandler} disabled={todoList.entityStatus === 'loading'}/>
+                    <IconButton onClick={() => removeTodoList(todoList.id)} disabled={todoList.entityStatus === 'loading'}>
                         <DeleteIcon/>
                     </IconButton>
                 </h3>
-                <AddItemForm addItem={onClickHandler}/>
+                <AddItemForm addItem={addTaskHandler} disabled={todoList.entityStatus === 'loading'}/>
             </div>
             <Tasks todoList={todoList} removeTask={removeTask} updateTask={updateTask}/>
             <div className={s.buttonContainer}>

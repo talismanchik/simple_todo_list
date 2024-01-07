@@ -4,6 +4,7 @@ import {Task} from "./task/Task.tsx";
 import {TaskDomainType, UpdateDomainTaskModelType} from "../../../../state/tasksReducer/tasksReducer.ts";
 import {useAppSelector} from "../../../../state/hooks/redux.ts";
 import {TodoListDomainType} from "../../../../state/todoListsReducer/todoListsReducer.ts";
+import React from 'react'
 
 type TasksPropsType = {
     todoList: TodoListDomainType
@@ -11,7 +12,7 @@ type TasksPropsType = {
     updateTask: (todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) => void
 }
 
-export const Tasks = ({
+export const Tasks = React.memo(({
                           updateTask,
                           removeTask,
                           todoList
@@ -42,6 +43,7 @@ export const Tasks = ({
                   changeStatus={changeStatusHandler}
                   changeTaskTitle={changeTaskTitleHandler}
                   removeTask={removeTaskHandler}
+                  disabled={el.entityStatus === "loading"}
             />
         )
     })
@@ -51,4 +53,4 @@ export const Tasks = ({
             {tasksMapped}
         </ul>
     );
-};
+});
