@@ -3,16 +3,16 @@ import {ResponseType} from './todoListsApi.ts'
 
 export const tasksAPI = {
     getTasks: (todoListId: string) => {
-        return instance.get<GetTaskResponseType>(`${todoListId}/tasks`)
+        return instance.get<GetTaskResponseType>(`todo-lists/${todoListId}/tasks`)
     },
     createTasks: (todoListId: string, title: string) => {
-        return instance.post<ResponseType<{item: TaskType }>>(`${todoListId}/tasks`, {title: title})
+        return instance.post<ResponseType<{item: TaskType }>>(`todo-lists/${todoListId}/tasks`, {title: title})
     },
     deleteTasks: (todoListId: string, taskId: string) => {
-        return instance.delete<ResponseType>(`${todoListId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`todo-lists/${todoListId}/tasks/${taskId}`)
     },
     updateTasks: (todoListId: string, taskId: string, model: UpdateTaskModelType) => {
-        return instance.put<ResponseType>(`${todoListId}/tasks/${taskId}`, model)
+        return instance.put<ResponseType>(`todo-lists/${todoListId}/tasks/${taskId}`, model)
     },
 }
 
