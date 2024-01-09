@@ -5,11 +5,20 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
-import {useAppSelector} from "../../state/hooks/redux.ts";
-import {RequestStatusType} from "../../state/appReducer/appReducer.ts";
+import {useAppDispatch, useAppSelector} from "@/state/hooks/redux";
+import {RequestStatusType} from "@/state/appReducer/appReducer";
+import {logoutTC} from "@/state/authReducer/authReducer";
 
-export const Header = () => {
+type HeaderType = {
+    isLoggedIn: boolean
+}
+export const Header = ({isLoggedIn}: HeaderType) => {
+    const dispatch = useAppDispatch()
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
+
     return (
         <AppBar position={'static'} style={{height: '67px'}}>
             <Toolbar>
@@ -25,7 +34,7 @@ export const Header = () => {
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                     Todolist
                 </Typography>
-                <Button color="inherit">Login</Button>
+                {isLoggedIn && <Button onClick={logoutHandler} color="inherit">Log out</Button>}
             </Toolbar>
                 {status === 'loading' && <LinearProgress />}
         </AppBar>

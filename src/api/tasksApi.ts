@@ -1,5 +1,5 @@
-import {instance} from "./todoListsApi.ts";
-import {ResponseType} from './todoListsApi.ts'
+import {instance} from "./todoListsApi";
+import {ResponseType} from './todoListsApi'
 
 export const tasksAPI = {
     getTasks: (todoListId: string) => {

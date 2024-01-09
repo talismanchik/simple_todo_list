@@ -1,18 +1,29 @@
-import {instance, ResponseType} from "./todoListsApi.ts";
+import {instance, ResponseType} from "./todoListsApi";
 
 
 
-export const AuthApi = {
-    login() {
-        return instance.post<ResponseType<{ userId: number }>>('/login')
+export const authAPI = {
+    login(date: LoginParamsType) {
+        return instance.post<ResponseType<{ userId: number }>>('auth/login', date)
+    },
+    logout(){
+      return instance.delete<ResponseType>('auth/login')
+    },
+    me(){
+        return instance.get<ResponseType<MeParamsType>>('auth/me')
     }
 };
 
 // TYPES
-type LoginParamsType = {
+export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean
-    captcha: boolean
+    captcha?: boolean
+}
+export type MeParamsType = {
+    email: string,
+    id: number,
+    login: string
 }
 

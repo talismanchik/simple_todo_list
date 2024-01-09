@@ -1,14 +1,14 @@
 import {
-    addTodoList,
+    addTodoList, clearState,
     removeTodoList,
     setTodoLists,
-} from "../todoListsReducer/todoListsReducer.ts";
-import {tasksAPI, TaskType, UpdateTaskModelType} from "../../api/tasksApi.ts";
+} from "../todoListsReducer/todoListsReducer";
+import {tasksAPI, TaskType, UpdateTaskModelType} from "@/api/tasksApi";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
-import {RootStateType} from "../store.ts";
-import {RequestStatusType, setAppError, setAppStatus} from "../appReducer/appReducer.ts";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils.ts";
+import {RootStateType} from "../store";
+import {RequestStatusType, setAppError, setAppStatus} from "../appReducer/appReducer";
+import {handleServerAppError, handleServerNetworkError} from "@/utils/error-utils";
 
 
 const initialState: TasksStateType = {}
@@ -41,7 +41,11 @@ const slice = createSlice({
                 tasks[index] = {...tasks[index], ...action.payload.model}
             }
         },
-        changeTaskEntityStatus(state, action: PayloadAction<{ todoListId: string, taskId: string, entityStatus: RequestStatusType }>) {
+        changeTaskEntityStatus(state, action: PayloadAction<{
+            todoListId: string,
+            taskId: string,
+            entityStatus: RequestStatusType
+        }>) {
             const tasks = state[action.payload.todoListId]
             const index = tasks.findIndex(el => el.id === action.payload.taskId)
             tasks[index].entityStatus = action.payload.entityStatus
@@ -54,15 +58,19 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(addTodoList, (state, action) => {
-            state[action.payload.todoList.id] = []
-        });
-        builder.addCase(removeTodoList, (state, action) => {
-            delete state[action.payload.todoListId]
-        });
-        builder.addCase(setTodoLists, (state, action) => {
-            action.payload.todoLists.forEach(el => state[el.id] = [])
-        })
+        builder
+            .addCase(addTodoList, (state, action) => {
+                state[action.payload.todoList.id] = []
+            })
+            .addCase(removeTodoList, (state, action) => {
+                delete state[action.payload.todoListId]
+            })
+            .addCase(setTodoLists, (state, action) => {
+                action.payload.todoLists.forEach(el => state[el.id] = [])
+            })
+            .addCase(clearState, (state) => {
+                state = {}
+            })
     }
 })
 

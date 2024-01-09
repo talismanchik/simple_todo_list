@@ -1,17 +1,16 @@
 import s from './Todolist.module.scss'
-import {AddItemForm} from "../../../components/addItemForm/AddItemForm.tsx";
-import {EditableSpan} from "../../../components/aditableSpan/EditableSpan.tsx";
+import {AddItemForm} from "@/components/addItemForm/AddItemForm";
+import {EditableSpan} from "@/components/aditableSpan/EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import {
     FilterValuesType,
     TodoListDomainType
-} from "../../../state/todoListsReducer/todoListsReducer.ts";
-import {fetchTasksTC, UpdateDomainTaskModelType} from "../../../state/tasksReducer/tasksReducer.ts";
-import React, {useCallback, useEffect} from "react";
-import {useAppDispatch} from "../../../state/hooks/redux.ts";
-import {Tasks} from "./tasks/Tasks.tsx";
+} from "@/state/todoListsReducer/todoListsReducer";
+import {UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
+import React, {useCallback} from "react";
+import {Tasks} from "./tasks/Tasks";
 
 type TodoListPropsType = {
     todoList: TodoListDomainType
@@ -31,10 +30,6 @@ export const TodoList = React.memo(({
                                         removeTodoList,
                                         changeTodoListTitle,
                                     }: TodoListPropsType) => {
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(fetchTasksTC(todoList.id))
-    }, [])
 
     const addTaskHandler = useCallback((title: string) => {
         addTask(todoList.id, title)
@@ -47,8 +42,10 @@ export const TodoList = React.memo(({
         <div className={s.todoListContainer}>
             <div className={s.header}>
                 <h3>
-                    <EditableSpan title={todoList.title} onChange={changeTodoListTitleHandler} disabled={todoList.entityStatus === 'loading'}/>
-                    <IconButton onClick={() => removeTodoList(todoList.id)} disabled={todoList.entityStatus === 'loading'}>
+                    <EditableSpan title={todoList.title} onChange={changeTodoListTitleHandler}
+                                  disabled={todoList.entityStatus === 'loading'}/>
+                    <IconButton onClick={() => removeTodoList(todoList.id)}
+                                disabled={todoList.entityStatus === 'loading'}>
                         <DeleteIcon/>
                     </IconButton>
                 </h3>

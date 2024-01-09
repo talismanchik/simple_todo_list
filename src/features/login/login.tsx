@@ -5,16 +5,28 @@ import {FormControl, FormControlLabel, FormGroup, FormLabel} from "@mui/material
 import Checkbox from "@mui/material/Checkbox";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {loginFormSchema, LoginFormType} from "./loginFormSchema.ts";
+import {loginFormSchema, LoginFormType} from "./loginFormSchema";
+import {useAppDispatch} from "@/state/hooks/redux";
+import {loginTC} from "@/state/authReducer/authReducer";
+import {Navigate} from "react-router-dom";
 
-export const Login = () => {
+
+type LoginType = {
+    isLoggedIn: boolean
+}
+
+export const Login = ({isLoggedIn}: LoginType) => {
+    const dispatch = useAppDispatch()
 
     const {register, handleSubmit, formState: {errors}} = useForm<LoginFormType>({
         resolver: zodResolver(loginFormSchema)
     })
     const onSubmit: SubmitHandler<LoginFormType> = (data) => {
-        alert('date: ' + JSON.stringify(data))
+        dispatch(loginTC(data))
+    }
 
+    if(isLoggedIn) {
+        return <Navigate to={'/'}/>
     }
 
     return (

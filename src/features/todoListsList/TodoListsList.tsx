@@ -1,21 +1,32 @@
 import Grid from "@mui/material/Grid";
 import {Paper} from "@mui/material";
-import {TodoList} from "./todoList/TodoList.tsx";
-import {useAppDispatch, useAppSelector} from "../../state/hooks/redux.ts";
-import {
-    addTodoListsTC,
-    changeTodoListFilter, changeTodoListTitleTC,
-    fetchTodoListsTC, FilterValuesType,
-    removeTodoListsTC, TodoListDomainType
-} from "../../state/todoListsReducer/todoListsReducer.ts";
+
+
+
 import React, {useCallback, useEffect} from "react";
 import {
     addTaskTC, removeTaskTC,
     UpdateDomainTaskModelType, updateTaskTC
-} from "../../state/tasksReducer/tasksReducer.ts";
-import {AddItemForm} from "../../components/addItemForm/AddItemForm.tsx";
+} from "@/state/tasksReducer/tasksReducer";
 
-export const TodoListsList = React.memo(() => {
+import {Navigate} from "react-router-dom";
+import {TodoList} from "./todoList/TodoList";
+import {
+    addTodoListsTC,
+    changeTodoListFilter,
+    changeTodoListTitleTC,
+    fetchTodoListsTC, FilterValuesType,
+    removeTodoListsTC,
+    TodoListDomainType
+} from "@/state/todoListsReducer/todoListsReducer";
+import {AddItemForm} from "@/components/addItemForm/AddItemForm";
+import {useAppDispatch, useAppSelector} from "@/state/hooks/redux";
+
+type TodoListsListType = {
+    isLoggedIn: boolean
+}
+
+export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
     const todoLists = useAppSelector<TodoListDomainType[]>(state => state.todoLists)
     const dispatch = useAppDispatch()
 
@@ -61,6 +72,10 @@ export const TodoListsList = React.memo(() => {
             </Paper>
         </Grid>
     })
+    if(!isLoggedIn){
+        return <Navigate to={'/login'}/>
+    }
+
     return (
         <>
             <Grid container style={{padding: '20px'}}>
