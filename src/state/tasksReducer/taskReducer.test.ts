@@ -1,7 +1,7 @@
 import {
     addTask,
     fetchTasks,
-    removeTask,
+    removeTaskTC,
     tasksReducer,
     TasksStateType, updateTask
 } from "./tasksReducer.ts";
@@ -99,7 +99,7 @@ beforeEach(() => {
 test(`'removeTask reducer'. Correct task should be deleted from correct array`, () => {
 
 
-    const action = removeTask({todoListId: 'todolistId2', taskId: '2'})
+    const action = removeTaskTC({todoListId: 'todolistId2', taskId: '2'})
 
     const endState = tasksReducer(startTaskState, action)
 

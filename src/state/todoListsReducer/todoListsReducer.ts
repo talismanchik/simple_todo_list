@@ -1,9 +1,10 @@
 import {todoListsAPI, TodoListType} from "@/api/todoListsApi";
 import {Dispatch} from "redux";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RequestStatusType, setAppError, setAppStatus} from "../appReducer/appReducer";
+import {RequestStatusType, setAppStatus} from "../appReducer/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/error-utils";
-import {fetchTasksTC} from "@/state/tasksReducer/tasksReducer";
+import {fetchTasks} from "@/state/tasksReducer/tasksReducer";
+import {AppDispatchType} from "@/state/store";
 
 
 const initialState: TodoListDomainType[] = []
@@ -49,8 +50,8 @@ const slice = createSlice({
         }>) {
             return action.payload.todoLists.map(el => ({...el, filter: 'all', entityStatus: 'idle'}))
         },
-        clearState(state){
-            state = []
+        clearState(){
+            return []
         },
     }
 })
@@ -68,7 +69,7 @@ export const {
 
 
 // THUNKS
-export const fetchTodoListsTC = () => (dispatch: ThunkDispatch) => {
+export const fetchTodoListsTC = () => (dispatch: AppDispatchType) => {
     dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.getTodoLists()
         .then((res) => {
@@ -77,14 +78,13 @@ export const fetchTodoListsTC = () => (dispatch: ThunkDispatch) => {
             return res.data
         })
         .then(res=>{
-            // @ts-ignore
-            res.forEach(tl=> dispatch(fetchTasksTC(tl.id)))
+            res.forEach(tl=> dispatch(fetchTasks(tl.id)))
         })
         .catch(error => {
             handleServerNetworkError(error, dispatch)
         })
 }
-export const addTodoListsTC = (title: string) => (dispatch: ThunkDispatch) => {
+export const addTodoListsTC = (title: string) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.createTodoList(title)
         .then((res) => {
@@ -99,7 +99,7 @@ export const addTodoListsTC = (title: string) => (dispatch: ThunkDispatch) => {
             handleServerNetworkError(error, dispatch)
         })
 }
-export const removeTodoListsTC = (todoListId: string) => (dispatch: ThunkDispatch) => {
+export const removeTodoListsTC = (todoListId: string) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatus({status: "loading"}))
     dispatch(changeTodoListEntityStatus({todoListId, entityStatus: "loading"}))
     todoListsAPI.deleteTodoList(todoListId)
@@ -115,7 +115,7 @@ export const removeTodoListsTC = (todoListId: string) => (dispatch: ThunkDispatc
             handleServerNetworkError(error, dispatch)
         })
 }
-export const changeTodoListTitleTC = (todoListId: string, title: string) => (dispatch: ThunkDispatch) => {
+export const changeTodoListTitleTC = (todoListId: string, title: string) => (dispatch: AppDispatchType) => {
     dispatch(setAppStatus({status: "loading"}))
     todoListsAPI.updateTodoList(todoListId, title)
         .then((res) => {
@@ -131,15 +131,6 @@ export const changeTodoListTitleTC = (todoListId: string, title: string) => (dis
         })
 }
 
-type TodoListActionType =
-    | ReturnType<typeof removeTodoList>
-    | ReturnType<typeof addTodoList>
-    | ReturnType<typeof changeTodoListTitle>
-    | ReturnType<typeof changeTodoListFilter>
-    | ReturnType<typeof changeTodoListEntityStatus>
-    | ReturnType<typeof setTodoLists>
-    | ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setAppError>
 
 export type TodoListDomainType = TodoListType & {
     filter: FilterValuesType
@@ -147,4 +138,3 @@ export type TodoListDomainType = TodoListType & {
 }
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
-type ThunkDispatch = Dispatch<TodoListActionType>

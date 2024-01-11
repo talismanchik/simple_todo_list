@@ -2,12 +2,8 @@ import Grid from "@mui/material/Grid";
 import {Paper} from "@mui/material";
 
 
-
 import React, {useCallback, useEffect} from "react";
-import {
-    addTaskTC, removeTaskTC,
-    UpdateDomainTaskModelType, updateTaskTC
-} from "@/state/tasksReducer/tasksReducer";
+import {addTaskTC, removeTaskTC, UpdateDomainTaskModelType, updateTaskTC} from "@/state/tasksReducer/tasksReducer";
 
 import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
@@ -15,7 +11,8 @@ import {
     addTodoListsTC,
     changeTodoListFilter,
     changeTodoListTitleTC,
-    fetchTodoListsTC, FilterValuesType,
+    fetchTodoListsTC,
+    FilterValuesType,
     removeTodoListsTC,
     TodoListDomainType
 } from "@/state/todoListsReducer/todoListsReducer";
@@ -35,7 +32,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
     }, [])
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {
-        dispatch(removeTaskTC(todoListId, taskId))
+        dispatch(removeTaskTC({todoListId, taskId}))
     }, [])
     const addTask = useCallback((todoListId: string, title: string) => {
         dispatch(addTaskTC(todoListId, title))
@@ -72,15 +69,15 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
             </Paper>
         </Grid>
     })
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
     return (
         <>
             <Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodoList}/>
-        </Grid>
+                <AddItemForm addItem={addTodoList}/>
+            </Grid>
             <Grid container spacing={3}>
                 {mappedTodoLists}
             </Grid>

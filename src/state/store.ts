@@ -1,7 +1,7 @@
-import {Action, combineReducers} from "redux";
+import {combineReducers} from "redux";
 import {tasksReducer} from "./tasksReducer/tasksReducer";
 import {todoListsReducer} from "./todoListsReducer/todoListsReducer";
-import {thunk, ThunkDispatch} from "redux-thunk";
+import {thunk} from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
 import {appReducer} from "./appReducer/appReducer";
 import {authReducer} from "./authReducer/authReducer";
@@ -27,8 +27,8 @@ export const setupStore = ()=> store
 
 export type RootStateType = ReturnType<typeof rootReducer>
 export type AppStoreType = ReturnType<typeof setupStore>
-export type AppDispatchType = AppStoreType['dispatch']
-export type AppThunkDispatchType<Arg = void> = ThunkDispatch<RootStateType, Arg, Action>
+export type AppDispatchType = typeof store.dispatch
+// export type AppThunkDispatchType<Arg = void> = ThunkDispatch<RootStateType, Arg, Action>
 
 
 
