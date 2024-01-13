@@ -57,6 +57,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
     const mappedTodoLists = todoLists.map(tdl => {
         return <Grid item key={tdl.id}>
             <Paper style={{padding: '10px'}}>
+                длрод
                 <TodoList
                     todoList={tdl}
                     removeTask={removeTask}
@@ -75,7 +76,6 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
 
     return (
         <>
-            ымфым
             <Grid container style={{padding: '20px'}}>
                 <AddItemForm addItem={addTodoList}/>
             </Grid>
