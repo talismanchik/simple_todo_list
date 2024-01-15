@@ -1,16 +1,15 @@
 import {todoListsAPI, TodoListType} from "@/api/todoListsApi";
-import {Dispatch} from "redux";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RequestStatusType, setAppStatus} from "../appReducer/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/error-utils";
-import {fetchTasks} from "@/state/tasksReducer/tasksReducer";
 import {AppDispatchType} from "@/state/store";
+import {tasksThunks} from "@/state/tasksReducer/tasksReducer";
 
 
 const initialState: TodoListDomainType[] = []
 
 const slice = createSlice({
-    name: 'todolists',
+    name: 'todoLists',
     initialState: initialState,
     reducers: {
         removeTodoList(state, action: PayloadAction<{
@@ -78,7 +77,7 @@ export const fetchTodoListsTC = () => (dispatch: AppDispatchType) => {
             return res.data
         })
         .then(res=>{
-            res.forEach(tl=> dispatch(fetchTasks(tl.id)))
+            res.forEach(tl=> dispatch(tasksThunks.fetchTasks(tl.id)))
         })
         .catch(error => {
             handleServerNetworkError(error, dispatch)

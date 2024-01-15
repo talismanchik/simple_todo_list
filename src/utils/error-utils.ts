@@ -1,9 +1,10 @@
-import {Dispatch} from "redux";
 import {setAppError, setAppStatus} from "@/state/appReducer/appReducer";
 import {ResponseType} from "@/api/todoListsApi";
+import axios from "axios";
+import {AppDispatchType} from "@/state/store";
 
 
-export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: ErrorUtilsDispatchType) => {
+export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: AppDispatchType) => {
     if (data.messages.length) {
         dispatch(setAppError({error: data.messages[0]}))
     } else {
@@ -12,10 +13,15 @@ export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: ErrorUt
     dispatch(setAppStatus({status: 'failed'}))
 }
 
-export const handleServerNetworkError = (error: { message: string }, dispatch: ErrorUtilsDispatchType) => {
+export const handleServerNetworkError = (error: unknown, dispatch: AppDispatchType) => {
+    let errorMessage = 'Some error occurred'
+    if (axios.isAxiosError(error)) {
+        errorMessage = errorMessage || error?.message || error.response?.data?.message
+    } else if (error instanceof Error) {
+        error = `Native error: ${error.message}`
+    } else {
+        errorMessage = JSON.stringify(error)
+    }
     dispatch(setAppStatus({status: 'failed'}))
-    dispatch(setAppError({error: error.message}))
+    dispatch(setAppError({error: errorMessage}))
 }
-type ErrorUtilsDispatchType = Dispatch<
-    | ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setAppError>>
