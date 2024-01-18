@@ -3,7 +3,7 @@ import {Paper} from "@mui/material";
 
 
 import React, {useCallback, useEffect} from "react";
-import {removeTaskTC, tasksThunks, UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
+import {tasksThunks, UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
 
 import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
@@ -32,7 +32,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
     }, [])
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {
-        dispatch(removeTaskTC({todoListId, taskId}))
+        dispatch(tasksThunks.removeTask({todoListId, taskId}))
     }, [])
     const addTask = useCallback((todoListId: string, title: string) => {
         dispatch(tasksThunks.addTask({todoListId, title}))
