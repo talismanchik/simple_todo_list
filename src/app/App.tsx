@@ -1,16 +1,17 @@
 import s from './App.module.scss'
-import {Header} from "@/layout/header/header";
+import {Header} from "@/app/layout/header/header";
 import Container from "@mui/material/Container";
 import {useEffect} from "react";
 
 
-import {ErrorSnackbar} from "@/components/errorSnackbar/errorSnackbar";
+import {ErrorSnackbar} from "@/common/components/errorSnackbar/errorSnackbar";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "@/features/login/login";
-import {initializeAppTC} from "@/state/appReducer/appReducer";
+import {Login} from "@/features/auth/ui/login";
+import {initializeAppTC} from "@/app/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import {TodoListsList} from "@/features/todoListsList/TodoListsList";
-import {useAppDispatch, useAppSelector} from "@/state/hooks/redux";
+import {useAppSelector} from "@/common/hooks/useAppSelector";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch";
 export const App = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -35,7 +36,7 @@ export const App = () => {
                 <Container fixed>
                     <Routes>
                         <Route path={'/'} element={<TodoListsList isLoggedIn={isLoggedIn}/>}/>
-                        <Route path={'/login'} element={<Login isLoggedIn={isLoggedIn}/>}/>
+                        <Route path={'/auth'} element={<Login isLoggedIn={isLoggedIn}/>}/>
                         <Route path={'*'} element={<Navigate to={'/404'}/>}/>
                         <Route path={'/404'} element={<h1>404: PAGE NOT FOUND</h1>}/>
                     </Routes>

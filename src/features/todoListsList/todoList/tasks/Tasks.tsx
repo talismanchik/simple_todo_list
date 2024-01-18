@@ -1,9 +1,9 @@
 import s from "../Todolist.module.scss";
 import {TaskStatuses} from "@/api/tasksApi";
 import {Task} from "./task/Task";
-import {TaskDomainType, UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
-import {useAppSelector} from "@/state/hooks/redux";
-import {TodoListDomainType} from "@/state/todoListsReducer/todoListsReducer";
+import {TaskDomainType, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+import {useAppSelector} from "@/common/hooks/useAppSelector";
+import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListsReducer";
 import React from 'react'
 
 type TasksPropsType = {

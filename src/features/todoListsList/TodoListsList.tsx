@@ -3,7 +3,7 @@ import {Paper} from "@mui/material";
 
 
 import React, {useCallback, useEffect} from "react";
-import {tasksThunks, UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
+import {tasksThunks, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
 
 import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
@@ -15,9 +15,9 @@ import {
     FilterValuesType,
     removeTodoListsTC,
     TodoListDomainType
-} from "@/state/todoListsReducer/todoListsReducer";
-import {AddItemForm} from "@/components/addItemForm/AddItemForm";
-import {useAppDispatch, useAppSelector} from "@/state/hooks/redux";
+} from "@/features/todoListsList/todoList/todoListsReducer";
+import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
+import {useAppDispatch, useAppSelector} from "@/common/hooks/useAppSelector";
 
 type TodoListsListType = {
     isLoggedIn: boolean
@@ -70,7 +70,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
         </Grid>
     })
     if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/auth'}/>
     }
 
     return (

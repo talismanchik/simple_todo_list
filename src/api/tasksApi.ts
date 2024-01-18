@@ -1,6 +1,7 @@
-import {instance} from "./todoListsApi";
-import {ResponseType} from './todoListsApi'
-import {UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
+import { instance } from '@/common/api/baseApi';
+import {ResponseType} from '@/common/types/commonTypes'
+import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+import {TaskStatuses, TodoTaskPriorities} from "@/common/enums/enums";
 
 export const tasksAPI = {
     getTasks: (todoListId: string) => {
@@ -18,22 +19,6 @@ export const tasksAPI = {
 }
 
 //  TYPES
-
-export enum TaskStatuses {
-    New = 0,
-    InProgress = 1,
-    Completed = 2,
-    Draft = 3
-}
-
-export enum TodoTaskPriorities {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    Urgently = 3,
-    Later = 4
-}
-
 export type TaskType = {
     id: string
     title: string

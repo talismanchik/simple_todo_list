@@ -1,14 +1,14 @@
 import s from './Todolist.module.scss'
-import {AddItemForm} from "@/components/addItemForm/AddItemForm";
-import {EditableSpan} from "@/components/aditableSpan/EditableSpan";
+import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
+import {EditableSpan} from "@/common/components/aditableSpan/EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import {
     FilterValuesType,
     TodoListDomainType
-} from "@/state/todoListsReducer/todoListsReducer";
-import {UpdateDomainTaskModelType} from "@/state/tasksReducer/tasksReducer";
+} from "@/features/todoListsList/todoList/todoListsReducer";
+import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
 import React, {useCallback} from "react";
 import {Tasks} from "./tasks/Tasks";
 

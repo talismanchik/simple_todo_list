@@ -1,9 +1,9 @@
 import Checkbox from "@mui/material/Checkbox";
-import {EditableSpan} from "@/components/aditableSpan/EditableSpan";
+import {EditableSpan} from "@/common/components/aditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ChangeEvent, useCallback} from "react";
-import {TaskDomainType} from "@/state/tasksReducer/tasksReducer";
+import {TaskDomainType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
 
 import React from 'react'
 import {TaskStatuses} from "@/api/tasksApi";
