@@ -1,10 +1,10 @@
 import s from "../Todolist.module.scss";
-import {TaskStatuses} from "@/api/tasksApi";
 import {Task} from "./task/Task";
-import {TaskDomainType, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+import {TaskDomainType, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
-import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListsReducer";
+import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import React from 'react'
+import {TaskStatuses} from "@/common/enums/enums";
 
 type TasksPropsType = {
     todoList: TodoListDomainType

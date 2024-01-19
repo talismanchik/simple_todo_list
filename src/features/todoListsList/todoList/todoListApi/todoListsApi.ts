@@ -12,8 +12,8 @@ export const todoListsAPI = {
     deleteTodoList: (todoListId: string) => {
         return instance.delete<ResponseType>(`todo-lists/${todoListId}`)
     },
-    updateTodoList: (todoListId: string, title: string) => {
-        return instance.put<ResponseType<{item: TodoListType}>>(`todo-lists/${todoListId}`, {title: title})
+    updateTodoList: (arg: ArgUpdateTodoList) => {
+        return instance.put<ResponseType<{item: TodoListType}>>(`todo-lists/${arg.todoListId}`, {title: arg.title})
     },
 }
 
@@ -23,5 +23,10 @@ export type TodoListType = {
     title: string
     addedDate: string
     order: number
+}
+
+export type ArgUpdateTodoList = {
+    todoListId: string,
+    title: string
 }
 

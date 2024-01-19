@@ -1,11 +1,11 @@
 import {
-    addTodoList, changeTodoListFilter,
-    changeTodoListTitle, FilterValuesType,
+    addTodoList, changeTodoListFilter, changeTodoListTitle, FilterValuesType,
     removeTodoList, setTodoLists,
     TodoListDomainType,
     todoListsReducer
-} from "./todoListsReducer.ts";
-import {TodoListType} from "../../../api/todoListsApi.ts";
+} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
+import {TodoListType} from "@/features/todoListsList/todoList/todoListApi/todoListsApi";
+
 
 export let todolistId1: string
 export let todolistId2: string
@@ -15,8 +15,8 @@ beforeEach(() => {
     todolistId1 = 'todolistId1'
     todolistId2 = 'todolistId2'
     startTodoListState = [
-        {id: todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
-        {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: '', order: 0}
+        {id: todolistId1, title: 'What to learn', filter: 'all', addedDate: '', order: 0, entityStatus: "succeeded"},
+        {id: todolistId2, title: 'What to buy', filter: 'all', addedDate: '', order: 0, entityStatus: "succeeded"}
     ]
 })
 

@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import {
     FilterValuesType,
     TodoListDomainType
-} from "@/features/todoListsList/todoList/todoListsReducer";
-import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
+import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import React, {useCallback} from "react";
 import {Tasks} from "./tasks/Tasks";
 

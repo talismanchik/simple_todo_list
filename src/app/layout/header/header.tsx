@@ -5,9 +5,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
-import {useAppDispatch, useAppSelector} from "@/common/hooks/useAppSelector";
+import {useAppSelector} from "@/common/hooks/useAppSelector";
 import {RequestStatusType} from "@/app/appReducer";
 import {logoutTC} from "@/features/auth/api/authReducer";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch";
 
 type HeaderType = {
     isLoggedIn: boolean

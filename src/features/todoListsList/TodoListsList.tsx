@@ -3,21 +3,19 @@ import {Paper} from "@mui/material";
 
 
 import React, {useCallback, useEffect} from "react";
-import {tasksThunks, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+import {tasksThunks, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 
 import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
 import {
-    addTodoListsTC,
     changeTodoListFilter,
-    changeTodoListTitleTC,
     fetchTodoListsTC,
     FilterValuesType,
-    removeTodoListsTC,
-    TodoListDomainType
-} from "@/features/todoListsList/todoList/todoListsReducer";
+    TodoListDomainType, todoListThunks
+} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
-import {useAppDispatch, useAppSelector} from "@/common/hooks/useAppSelector";
+import {useAppSelector} from "@/common/hooks/useAppSelector";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch";
 
 type TodoListsListType = {
     isLoggedIn: boolean
@@ -41,16 +39,16 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
         dispatch(tasksThunks.updateTask({todoListId, taskId, model: changeElement}))
     }, [])
     const removeTodoList = useCallback((todoListId: string) => {
-        dispatch(removeTodoListsTC(todoListId))
+        dispatch(todoListThunks.removeTodoList(todoListId))
     }, [])
-    const changeTodoListTitle = useCallback((todoListId: string, value: string) => {
-        dispatch(changeTodoListTitleTC(todoListId, value))
+    const changeTodoListTitle = useCallback((todoListId: string, title: string) => {
+        dispatch(todoListThunks.changeTodoListTitle({todoListId, title}))
     }, [])
     const changeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
         dispatch(changeTodoListFilter({todoListId, filter: value}))
     }, [])
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodoListsTC(title))
+        dispatch(todoListThunks.addTodoList(title))
     }, [])
 
 

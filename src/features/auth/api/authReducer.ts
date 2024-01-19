@@ -2,8 +2,9 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
 import {setAppStatus} from "../../../app/appReducer";
 import {authAPI, LoginParamsType} from "@/features/auth/api/authApi";
-import {handleServerAppError, handleServerNetworkError} from "@/common/utils/handleServerNetworkError";
-import {clearState} from "@/features/todoListsList/todoList/todoListsReducer";
+import { handleServerNetworkError} from "@/common/utils/handleServerNetworkError";
+import {clearState} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
+import {handleServerAppError} from "@/common/utils/handleServerAppError";
 
 export const loginTC = createAsyncThunk('auth/auth', async (date: LoginParamsType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: "loading"}))
@@ -13,11 +14,11 @@ export const loginTC = createAsyncThunk('auth/auth', async (date: LoginParamsTyp
             thunkAPI.dispatch(setAppStatus({status: "succeeded"}))
             return {isLogged: true}
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
+            // handleServerAppError(res.data, thunkAPI.dispatch)
             return {isLogged: false}
         }
     } catch (error) {
-        handleServerNetworkError(error, thunkAPI.dispatch)
+        // handleServerNetworkError(error, thunkAPI.dispatch)
         return {isLogged: false}
     }
 })

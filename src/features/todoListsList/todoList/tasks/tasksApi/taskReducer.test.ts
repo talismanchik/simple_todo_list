@@ -1,6 +1,12 @@
-import {TasksStateType, tasksThunks} from "@/features/todoListsList/todoList/tasks/tasksReducer";
+import {
+    changeTaskEntityStatus,
+    tasksReducer,
+    TasksStateType,
+    tasksThunks,
+} from "./tasksReducer";
 import {TaskStatuses, TodoTaskPriorities} from "@/common/enums/enums";
-import {ArgAddTask} from "@/api/tasksApi";
+import {ArgAddTask} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksApi";
+import {addTodoList, removeTodoList, setTodoLists} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 
 
 let startTaskState: TasksStateType
@@ -93,7 +99,7 @@ beforeEach(() => {
 test(`'removeTask reducer'. Correct task should be deleted from correct array`, () => {
 
 
-    const action = removeTaskTC({todoListId: 'todolistId2', taskId: '2'})
+    const action = tasksThunks.removeTask.fulfilled({todoListId: 'todolistId2', taskId: '2'}, '', '')
 
     const endState = tasksReducer(startTaskState, action)
 
@@ -110,7 +116,7 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
                 addedDate: '',
                 order: 0,
                 priority: TodoTaskPriorities.Low,
-                // entityStatus: "idle"
+                 entityStatus: "idle"
             },
             {
                 id: '2',
@@ -123,7 +129,7 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
                 addedDate: '',
                 order: 0,
                 priority: TodoTaskPriorities.Low,
-                // entityStatus: "idle"
+                 entityStatus: "idle"
             },
             {
                 id: '3',
@@ -136,7 +142,7 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
                 addedDate: '',
                 order: 0,
                 priority: TodoTaskPriorities.Low,
-                // entityStatus: "idle"
+                 entityStatus: "idle"
             }
         ],
         'todolistId2': [
@@ -151,7 +157,7 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
                 addedDate: '',
                 order: 0,
                 priority: TodoTaskPriorities.Low,
-                // entityStatus: "idle"
+                 entityStatus: "idle"
             },
             {
                 id: '3',
@@ -164,7 +170,7 @@ test(`'removeTask reducer'. Correct task should be deleted from correct array`, 
                 addedDate: '',
                 order: 0,
                 priority: TodoTaskPriorities.Low,
-                // entityStatus: "idle"
+                 entityStatus: "idle"
             }
         ]
     })
@@ -188,9 +194,10 @@ test(`'addTask reducer'. Correct task should be added to correct array`, () => {
         todoListId: task.todoListId,
         title: task.title
     }
+    const action = tasksThunks.addTask.fulfilled({task}, '', agrAddTask)
 
 
-    const endState = tasksThunks.addTask.fulfilled({task}, '', agrAddTask)
+    const endState = tasksReducer(startTaskState, action)
 
     expect(endState['todolistId2'].length).toBe(4)
     expect(endState['todolistId1'].length).toBe(3)
@@ -200,11 +207,18 @@ test(`'addTask reducer'. Correct task should be added to correct array`, () => {
 })
 test(`'updateTask reducer'. Status of specified task should be changed`, () => {
 
-    const action = updateTask({
-        todoListId: 'todolistId1',
-        taskId: '1',
-        model: {status: TaskStatuses.Completed}
-    })
+    const action = tasksThunks.updateTask.fulfilled(
+        {
+            todoListId: 'todolistId1',
+            taskId: '1',
+            model: {status: TaskStatuses.Completed}
+        },
+        '',
+        {
+            todoListId: 'todolistId1',
+            taskId: '1',
+            model: {status: TaskStatuses.Completed}
+        })
 
     const endState = tasksReducer(startTaskState, action)
 
@@ -214,11 +228,18 @@ test(`'updateTask reducer'. Status of specified task should be changed`, () => {
 test(`'updateTask reducer'. Title of specified task should be changed`, () => {
 
     const newTitle = 'new title'
-    const action = updateTask({
-        todoListId: 'todolistId1',
-        taskId: '1',
-        model: {title: newTitle}
-    })
+    const action = tasksThunks.updateTask.fulfilled(
+        {
+            todoListId: 'todolistId1',
+            taskId: '1',
+            model: {title: newTitle},
+        },
+        '',
+        {
+            todoListId: 'todolistId1',
+            taskId: '1',
+            model: {title: newTitle}
+        })
     const endState = tasksReducer(startTaskState, action)
 
     expect(endState['todolistId1'].length).toBe(3)
@@ -227,7 +248,7 @@ test(`'updateTask reducer'. Title of specified task should be changed`, () => {
 test('tasks should be added for todoList', () => {
 
     // const action = setTasksAC({listID: 'todolistId1', tasks: startState['todolistId1']})
-    const action = fetchTasks({todoListId: 'todolistId1', tasks: startTaskState['todolistId1']})
+    const action = tasksThunks.fetchTasks.fulfilled({todoListId: 'todolistId1', tasks: startTaskState['todolistId1']}, '', '')
 
     const endState = tasksReducer({
         'todolistId2': [],
@@ -237,16 +258,16 @@ test('tasks should be added for todoList', () => {
     expect(endState['todolistId2'].length).toBe(0)
     expect(endState['todolistId1'].length).toBe(3)
 })
-// test('entityStatus should be added for todoList', () => {
-//
-//     const action = changeTaskEntityStatusAC({listID: 'todolistId1', taskID: '1', status: 'succeeded'})
-//
-//     const endState = tasksReducer(startState, action)
-//
-//     expect(endState['todolistId1'][0].entityStatus).toBe('succeeded')
-//     expect(endState['todolistId1'][1].entityStatus).toBe('idle')
-//
-// })
+test('entityStatus should be added for todoList', () => {
+
+    const action = changeTaskEntityStatus({todoListId: 'todolistId1', taskId: '1', entityStatus: 'succeeded'})
+
+    const endState = tasksReducer(startTaskState, action)
+
+    expect(endState['todolistId1'][0].entityStatus).toBe('succeeded')
+    expect(endState['todolistId1'][1].entityStatus).toBe('idle')
+
+})
 test(`'addTodoList reducer'. Ids should be equals`, () => {
 
     const action = addTodoList({
