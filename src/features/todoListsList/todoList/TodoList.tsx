@@ -1,33 +1,25 @@
 import s from './Todolist.module.scss'
-import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
-import {EditableSpan} from "@/common/components/aditableSpan/EditableSpan";
+import {AddItemForm, EditableSpan} from "@/common/components";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import {
-    FilterValuesType,
-    TodoListDomainType
-} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
-import {tasksThunks, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
+import {FilterValuesType, TodoListDomainType} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
+import {tasksThunks} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import React, {useCallback, useEffect} from "react";
 import {Tasks} from "./tasks/Tasks";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {useAppDispatch} from "@/common/hooks";
 
 type TodoListPropsType = {
     todoList: TodoListDomainType
-    removeTask: (todoListId: string, taskId: string) => void
     changeFilter: (todoListId: string, value: FilterValuesType) => void
     addTask: (todoListId: string, title: string) => void
-    updateTask: (todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) => void
     removeTodoList: (todoListId: string) => void
     changeTodoListTitle: (todoListId: string, value: string) => void
 }
 export const TodoList = React.memo(({
                                         todoList,
-                                        removeTask,
                                         changeFilter,
                                         addTask,
-                                        updateTask,
                                         removeTodoList,
                                         changeTodoListTitle,
                                     }: TodoListPropsType) => {
@@ -57,7 +49,7 @@ export const TodoList = React.memo(({
                 </h3>
                 <AddItemForm addItem={addTaskHandler} disabled={todoList.entityStatus === 'loading'}/>
             </div>
-            <Tasks todoList={todoList} removeTask={removeTask} updateTask={updateTask}/>
+            <Tasks todoList={todoList}  />
             <div className={s.buttonContainer}>
                 <Button className={s.button}
                         onClick={useCallback(() => changeFilter(todoList.id, 'all'), [])}

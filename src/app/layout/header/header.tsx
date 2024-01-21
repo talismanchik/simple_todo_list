@@ -5,9 +5,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
-import {useAppSelector} from "@/common/hooks/useAppSelector";
+import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {RequestStatusType} from "@/app/appReducer";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch";
 import {authThunks} from "@/features/auth/api/authReducer";
 
 type HeaderType = {

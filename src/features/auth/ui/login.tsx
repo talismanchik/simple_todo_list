@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginFormSchema, LoginFormType} from "../model/loginFormSchema";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {useAppDispatch} from "@/common/hooks";
 import {Navigate} from "react-router-dom";
 import {authThunks} from "@/features/auth/api/authReducer";
 

@@ -4,13 +4,12 @@ import Container from "@mui/material/Container";
 import {useEffect} from "react";
 
 
-import {ErrorSnackbar} from "@/common/components/errorSnackbar/errorSnackbar";
+import {ErrorSnackbar} from "@/common/components";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "@/features/auth/ui/login";
 import CircularProgress from "@mui/material/CircularProgress";
 import {TodoListsList} from "@/features/todoListsList/TodoListsList";
-import {useAppSelector} from "@/common/hooks/useAppSelector";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {authThunks} from "@/features/auth/api/authReducer";
 
 export const App = () => {

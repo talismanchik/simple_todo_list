@@ -1,6 +1,6 @@
 import s from "../Todolist.module.scss";
 import {Task} from "./task/Task";
-import {TaskDomainType, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
+import {TaskDomainType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
 import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import React from 'react'
@@ -8,13 +8,10 @@ import {TaskStatuses} from "@/common/enums/enums";
 
 type TasksPropsType = {
     todoList: TodoListDomainType
-    removeTask: (todoListId: string, taskId: string) => void
-    updateTask: (todoListId: string, taskId: string, changeElement: UpdateDomainTaskModelType) => void
 }
 
 export const Tasks = React.memo(({
-                          updateTask,
-                          removeTask,
+
                           todoList
                       }: TasksPropsType) => {
     const tasks: TaskDomainType[] = useAppSelector<TaskDomainType[]>(state => state.tasks[todoList.id])
@@ -28,26 +25,15 @@ export const Tasks = React.memo(({
     }
 
     const tasksMapped = tasksForTodolist.map((el) => {
-        const changeTaskTitleHandler = (title: string) => {
-            updateTask(todoList.id, el.id, {title})
-        }
-        const changeStatusHandler = (newStatus: TaskStatuses) => {
-            updateTask(todoList.id, el.id, {status: newStatus})
-        }
-        const removeTaskHandler = () => {
-            removeTask(todoList.id, el.id)
-        }
+
+
         return (
             <Task key={el.id}
                   task={el}
-                  changeStatus={changeStatusHandler}
-                  changeTaskTitle={changeTaskTitleHandler}
-                  removeTask={removeTaskHandler}
                   disabled={el.entityStatus === "loading"}
             />
         )
     })
-
     return (
         <ul className={s.listItems}>
             {tasksMapped}

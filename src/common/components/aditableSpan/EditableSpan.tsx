@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 
 type EditableSpanType = {
     title: string
-    onChange: (newTitle: string)=> void
+    onChange: (title: string)=> void
     isDone?: boolean
     disabled: boolean
 }

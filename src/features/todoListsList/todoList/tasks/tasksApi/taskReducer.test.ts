@@ -310,7 +310,7 @@ test(`'setTodoLists reducer'. Tasks should be set to the state`, () => {
             {id: 'todolistId1', title: 'What to learn', addedDate: '', order: 0},
             {id: 'todolistId2', title: 'What to buy', addedDate: '', order: 0}
         ]
-    }, '')
+    }, '', undefined)
 
     const endState = tasksReducer({}, action)
 
