@@ -8,9 +8,10 @@ import {
     FilterValuesType,
     TodoListDomainType
 } from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
-import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
-import React, {useCallback} from "react";
+import {tasksThunks, UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
+import React, {useCallback, useEffect} from "react";
 import {Tasks} from "./tasks/Tasks";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch";
 
 type TodoListPropsType = {
     todoList: TodoListDomainType
@@ -30,6 +31,11 @@ export const TodoList = React.memo(({
                                         removeTodoList,
                                         changeTodoListTitle,
                                     }: TodoListPropsType) => {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(tasksThunks.fetchTasks(todoList.id))
+    }, []);
 
     const addTaskHandler = useCallback((title: string) => {
         addTask(todoList.id, title)

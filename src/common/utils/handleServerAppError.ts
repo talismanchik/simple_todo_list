@@ -1,12 +1,11 @@
-import {ResponseType} from "@/common/types/commonTypes";
+import {BaseResponseType} from "@/common/types/commonTypes";
 import {AppDispatchType} from "@/app/store";
 import {setAppError, setAppStatus} from "@/app/appReducer";
 
-export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: AppDispatchType) => {
-    if (data.messages.length) {
-        dispatch(setAppError({error: data.messages[0]}))
-    } else {
-        dispatch(setAppError({error: 'Some error!...'}))
+export const handleServerAppError = <D>(data: BaseResponseType<D>, dispatch: AppDispatchType, showError: boolean = true) => {
+    if (showError) {
+        dispatch(setAppError({error: data.messages.length ? data.messages[0] : 'Some error!...'}))
     }
+
     dispatch(setAppStatus({status: 'failed'}))
 }

@@ -1,8 +1,9 @@
 import {
-    addTodoList, changeTodoListFilter, changeTodoListTitle, FilterValuesType,
-    removeTodoList, setTodoLists,
+    changeTodoListFilter,
+    FilterValuesType,
     TodoListDomainType,
-    todoListsReducer
+    todoListsReducer,
+    todoListThunks
 } from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {TodoListType} from "@/features/todoListsList/todoList/todoListApi/todoListsApi";
 
@@ -21,7 +22,7 @@ beforeEach(() => {
 })
 
 test(`'removeTodoList reducer'. Correct todolist should be removed`, () => {
-    const action = removeTodoList({todoListId: todolistId1})
+    const action = todoListThunks.removeTodoList.fulfilled({todoListId: todolistId1},'','')
     const endState = todoListsReducer(startTodoListState, action)
 
     expect(endState.length).toBe(1)
@@ -34,7 +35,7 @@ test(`'addTodoList reducer'. Correct todolist should be added`, () => {
         addedDate: '',
         order: 0,
     }
-    const action = addTodoList({todoList: newTodolist})
+    const action = todoListThunks.addTodoList.fulfilled({todoList: newTodolist}, '', '')
     const endState = todoListsReducer(startTodoListState, action)
 
     expect(endState.length).toBe(3)
@@ -43,7 +44,10 @@ test(`'addTodoList reducer'. Correct todolist should be added`, () => {
 test(`'changeTodoListTitle reducer'. Correct todolist should change its name`, () => {
 
     const newTodolistTitle = 'New Todolist'
-    const action = changeTodoListTitle({
+    const action = todoListThunks.changeTodoListTitle.fulfilled({
+        todoListId: todolistId2,
+        title: newTodolistTitle
+    }, '', {
         todoListId: todolistId2,
         title: newTodolistTitle
     })
@@ -64,12 +68,12 @@ test(`'changeTodoListFilter reducer'. Correct filter of todolist should be chang
 })
 test(`'setTodoLists reducer'. Todolist should be set to the state`, () => {
 
-    const action = setTodoLists({
+    const action = todoListThunks.fetchTodoLists.fulfilled({
         todoLists: [
             {id: 'todolistId1', title: 'What to learn', addedDate: '', order: 0},
             {id: 'todolistId2', title: 'What to buy', addedDate: '', order: 0}
         ]
-    })
+    },'')
 
     const endState = todoListsReducer([], action)
 

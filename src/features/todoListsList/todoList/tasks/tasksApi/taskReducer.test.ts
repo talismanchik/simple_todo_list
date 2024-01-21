@@ -6,7 +6,9 @@ import {
 } from "./tasksReducer";
 import {TaskStatuses, TodoTaskPriorities} from "@/common/enums/enums";
 import {ArgAddTask} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksApi";
-import {addTodoList, removeTodoList, setTodoLists} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
+import {
+    todoListThunks
+} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 
 
 let startTaskState: TasksStateType
@@ -99,7 +101,7 @@ beforeEach(() => {
 test(`'removeTask reducer'. Correct task should be deleted from correct array`, () => {
 
 
-    const action = tasksThunks.removeTask.fulfilled({todoListId: 'todolistId2', taskId: '2'}, '', '')
+    const action = tasksThunks.removeTask.fulfilled({todoListId: 'todolistId2', taskId: '2'}, '', {todoListId: 'todolistId2', taskId: '2'})
 
     const endState = tasksReducer(startTaskState, action)
 
@@ -270,14 +272,14 @@ test('entityStatus should be added for todoList', () => {
 })
 test(`'addTodoList reducer'. Ids should be equals`, () => {
 
-    const action = addTodoList({
+    const action = todoListThunks.addTodoList.fulfilled({
         todoList: {
             id: 'sfagsdhnsnc',
             title: 'New List',
             addedDate: '',
             order: 0
         }
-    })
+    }, '', '')
 
     const endTasksState = tasksReducer(startTaskState, action)
 
@@ -290,7 +292,7 @@ test(`'addTodoList reducer'. Ids should be equals`, () => {
 })
 test('property with todolistId should be deleted', () => {
 
-    const action = removeTodoList({todoListId: 'todolistId2'})
+    const action = todoListThunks.removeTodoList.fulfilled({todoListId: 'todolistId2'}, '', '')
 
 
     const endState = tasksReducer(startTaskState, action)
@@ -303,12 +305,12 @@ test('property with todolistId should be deleted', () => {
 })
 test(`'setTodoLists reducer'. Tasks should be set to the state`, () => {
 
-    const action = setTodoLists({
+    const action = todoListThunks.fetchTodoLists.fulfilled({
         todoLists: [
             {id: 'todolistId1', title: 'What to learn', addedDate: '', order: 0},
             {id: 'todolistId2', title: 'What to buy', addedDate: '', order: 0}
         ]
-    })
+    }, '')
 
     const endState = tasksReducer({}, action)
 

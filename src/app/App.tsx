@@ -7,18 +7,19 @@ import {useEffect} from "react";
 import {ErrorSnackbar} from "@/common/components/errorSnackbar/errorSnackbar";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "@/features/auth/ui/login";
-import {initializeAppTC} from "@/app/appReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import {TodoListsList} from "@/features/todoListsList/TodoListsList";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {authThunks} from "@/features/auth/api/authReducer";
+
 export const App = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        dispatch(authThunks.initializeApp())
     }, [])
 
     if (!isInitialized) {

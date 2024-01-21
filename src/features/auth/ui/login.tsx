@@ -7,8 +7,8 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginFormSchema, LoginFormType} from "../model/loginFormSchema";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch";
-import {loginTC} from "@/features/auth/api/authReducer";
 import {Navigate} from "react-router-dom";
+import {authThunks} from "@/features/auth/api/authReducer";
 
 
 type LoginType = {
@@ -22,7 +22,7 @@ export const Login = ({isLoggedIn}: LoginType) => {
         resolver: zodResolver(loginFormSchema)
     })
     const onSubmit: SubmitHandler<LoginFormType> = (data) => {
-        dispatch(loginTC(data))
+        dispatch(authThunks.login(data))
     }
 
     if(isLoggedIn) {
@@ -70,7 +70,3 @@ export const Login = ({isLoggedIn}: LoginType) => {
     );
 };
 
-//const emailRegex = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/
-
-
-//TYPES

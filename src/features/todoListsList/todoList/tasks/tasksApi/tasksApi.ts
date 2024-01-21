@@ -1,5 +1,5 @@
 import { instance } from '@/common/api/baseApi';
-import {ResponseType} from '@/common/types/commonTypes'
+import {BaseResponseType} from '@/common/types/commonTypes'
 import {UpdateDomainTaskModelType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import {TaskStatuses, TodoTaskPriorities} from "@/common/enums/enums";
 
@@ -8,13 +8,13 @@ export const tasksAPI = {
         return instance.get<GetTaskResponseType>(`todo-lists/${todoListId}/tasks`)
     },
     createTasks: (arg: ArgAddTask) => {
-        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${arg.todoListId}/tasks`, {title: arg.title})
+        return instance.post<BaseResponseType<{ item: TaskType }>>(`todo-lists/${arg.todoListId}/tasks`, {title: arg.title})
     },
     deleteTasks: (arg: ArgRemoveTask) => {
-        return instance.delete<ResponseType>(`todo-lists/${arg.todoListId}/tasks/${arg.taskId}`)
+        return instance.delete<BaseResponseType>(`todo-lists/${arg.todoListId}/tasks/${arg.taskId}`)
     },
     updateTasks: (arg: ArgUpdateTask) => {
-        return instance.put<ResponseType>(`todo-lists/${arg.todoListId}/tasks/${arg.taskId}`, arg.model)
+        return instance.put<BaseResponseType>(`todo-lists/${arg.todoListId}/tasks/${arg.taskId}`, arg.model)
     },
 }
 

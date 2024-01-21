@@ -1,7 +1,5 @@
 import {
     clearState,
-    removeTodoList,
-    setTodoLists,
     todoListThunks
 } from "../../todoListApi/todoListsReducer";
 import {
@@ -25,7 +23,6 @@ const slice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-
         changeTaskEntityStatus(state, action: PayloadAction<{
             todoListId: string,
             taskId: string,
@@ -44,7 +41,8 @@ const slice = createSlice({
             .addCase(todoListThunks.removeTodoList.fulfilled, (state, action) => {
                 delete state[action.payload.todoListId]
             })
-            .addCase(setTodoLists, (state, action) => {
+            .addCase(todoListThunks.fetchTodoLists.fulfilled, (state, action) => {
+               //debugger
                 action.payload.todoLists.forEach(el => state[el.id] = [])
             })
             .addCase(clearState, () => {

@@ -7,8 +7,8 @@ import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
 import {RequestStatusType} from "@/app/appReducer";
-import {logoutTC} from "@/features/auth/api/authReducer";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {authThunks} from "@/features/auth/api/authReducer";
 
 type HeaderType = {
     isLoggedIn: boolean
@@ -17,7 +17,7 @@ export const Header = ({isLoggedIn}: HeaderType) => {
     const dispatch = useAppDispatch()
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        dispatch(authThunks.logout())
     }
 
     return (

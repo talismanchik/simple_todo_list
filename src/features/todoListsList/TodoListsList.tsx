@@ -9,7 +9,6 @@ import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
 import {
     changeTodoListFilter,
-    fetchTodoListsTC,
     FilterValuesType,
     TodoListDomainType, todoListThunks
 } from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
@@ -26,7 +25,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: TodoListsListType) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodoListsTC())
+        dispatch(todoListThunks.fetchTodoLists())
     }, [])
 
     const removeTask = useCallback((todoListId: string, taskId: string) => {
