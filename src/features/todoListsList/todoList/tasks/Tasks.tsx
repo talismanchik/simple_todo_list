@@ -6,14 +6,11 @@ import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListApi/
 import React from 'react'
 import {TaskStatuses} from "@/common/enums/enums";
 
-type TasksPropsType = {
+type Props = {
     todoList: TodoListDomainType
 }
 
-export const Tasks = React.memo(({
-
-                          todoList
-                      }: TasksPropsType) => {
+export const Tasks = React.memo(({todoList}: Props) => {
     const tasks: TaskDomainType[] = useAppSelector<TaskDomainType[]>(state => state.tasks[todoList.id])
 
     let tasksForTodolist: TaskDomainType[] = tasks
@@ -23,10 +20,7 @@ export const Tasks = React.memo(({
     if (todoList.filter === 'active') {
         tasksForTodolist = tasks.filter(el => el.status == TaskStatuses.New)
     }
-
     const tasksMapped = tasksForTodolist.map((el) => {
-
-
         return (
             <Task key={el.id}
                   task={el}

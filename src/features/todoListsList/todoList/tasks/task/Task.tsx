@@ -7,18 +7,12 @@ import {TaskDomainType, tasksThunks} from "@/features/todoListsList/todoList/tas
 import {TaskStatuses} from "@/common/enums/enums";
 import {useAppDispatch} from "@/common/hooks";
 
-
-type TaskPropsType = {
+type Props = {
     task: TaskDomainType
     disabled: boolean
 }
-export const Task = React.memo(({
-                                    task,
-
-                                    disabled,
-                                }: TaskPropsType) => {
+export const Task = React.memo(({task, disabled,}: Props) => {
     const dispatch = useAppDispatch()
-
     const removeTaskHandler = () => {
         dispatch(tasksThunks.removeTask({todoListId: task.todoListId, taskId: task.id}))
     }
