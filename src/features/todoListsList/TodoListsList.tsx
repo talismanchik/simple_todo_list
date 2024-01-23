@@ -6,6 +6,7 @@ import {TodoList} from "./todoList/TodoList";
 import {TodoListDomainType, todoListThunks} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
+import s from '@/features/todoListsList/todoList/Todolist.module.scss'
 
 type Props = {
     isLoggedIn: boolean
@@ -37,7 +38,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: Props) => {
             <Grid container style={{padding: '20px'}}>
                 <AddItemForm addItem={addTodoList}/>
             </Grid>
-            <Grid container spacing={3}>
+            <Grid className={s.todoListsContainer} container spacing={3}>
                 {mappedTodoLists}
             </Grid>
         </>

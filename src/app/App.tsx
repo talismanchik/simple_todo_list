@@ -3,7 +3,7 @@ import {Header} from "@/app/layout/header/header";
 import Container from "@mui/material/Container";
 import {useEffect} from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {Login} from '../features/auth/ui/login';
+import {Login} from '@/features/auth/ui/login';
 import CircularProgress from "@mui/material/CircularProgress";
 import {TodoListsList} from "@/features/todoListsList/TodoListsList";
 import {useAppDispatch, useAppSelector} from "@/common/hooks";
@@ -31,7 +31,7 @@ export const App = () => {
             <div className={s.app}>
                 <ErrorSnackbar/>
                 <Header isLoggedIn={isLoggedIn}/>
-                <Container fixed>
+                <Container fixed style={{paddingBottom: '30px'}}>
                     <Routes>
                         <Route path={'/'} element={<TodoListsList isLoggedIn={isLoggedIn}/>}/>
                         <Route path={'/auth'} element={<Login isLoggedIn={isLoggedIn}/>}/>

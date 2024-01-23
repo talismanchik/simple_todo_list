@@ -1,25 +1,24 @@
-.todoListContainer {
+.todoListsContainer {
+  justify-content: space-around;
+  .todoListContainer {
 
-  .buttonContainer {
-    display: flex;
-    gap: 20px;
+    .buttonContainer {
+      display: flex;
+      gap: 20px;
 
-    > .button {
-      &:hover {
-        transform: scale(1.1);
-        transition: 0.2s ease-in-out;
-      }
-      &:active {
-        transform: scale(0.9);
+      > .button {
+        &:hover {
+          transform: scale(1.1);
+          transition: 0.2s ease-in-out;
+        }
+
+        &:active {
+          transform: scale(0.9);
+        }
       }
     }
   }
-}
-
-.activeFilter {
-  background-color: aquamarine;
-}
-
-.isDone {
-  opacity: 0.6;
+  .isDone {
+    opacity: 0.6;
+  }
 }
