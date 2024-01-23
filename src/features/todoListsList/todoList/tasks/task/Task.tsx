@@ -1,11 +1,11 @@
 import Checkbox from "@mui/material/Checkbox";
-import {EditableSpan} from "@/common/components";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, {ChangeEvent} from "react";
 import {TaskDomainType, tasksThunks} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import {TaskStatuses} from "@/common/enums/enums";
 import {useAppDispatch} from "@/common/hooks";
+import {EditableSpan} from "@/common/components/editableSpan/EditableSpan";
 
 type Props = {
     task: TaskDomainType

@@ -1,8 +1,8 @@
-import {EditableSpan} from "@/common/components";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {TodoListDomainType, todoListThunks} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {useAppDispatch} from "@/common/hooks";
+import {EditableSpan} from "@/common/components/editableSpan/EditableSpan";
 
 type Props = {
     todoList: TodoListDomainType

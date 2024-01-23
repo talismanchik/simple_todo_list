@@ -1,5 +1,4 @@
 import s from './Todolist.module.scss'
-import {AddItemForm} from "@/common/components";
 import {TodoListDomainType} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {tasksThunks} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import React, {useEffect} from "react";
@@ -7,6 +6,7 @@ import {Tasks} from "./tasks/Tasks";
 import {useAppDispatch} from "@/common/hooks";
 import {FilterTasksButtons} from "@/features/todoListsList/todoList/filterTasksButtons/filterTasksButtons";
 import {TodoListTitle} from "@/features/todoListsList/todoList/todoListTitle/todoListTitle";
+import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
 
 type Props = {
     todoList: TodoListDomainType

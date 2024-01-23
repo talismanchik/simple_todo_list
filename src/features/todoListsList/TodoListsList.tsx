@@ -4,8 +4,8 @@ import React, {useCallback, useEffect} from "react";
 import {Navigate} from "react-router-dom";
 import {TodoList} from "./todoList/TodoList";
 import {TodoListDomainType, todoListThunks} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
-import {AddItemForm} from "@/common/components";
 import {useAppDispatch, useAppSelector} from "@/common/hooks";
+import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
 
 type Props = {
     isLoggedIn: boolean
