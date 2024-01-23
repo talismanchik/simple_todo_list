@@ -23,7 +23,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: Props) => {
     }, [])
     const mappedTodoLists = todoLists.map(tdl => {
         return <Grid item key={tdl.id}>
-            <Paper style={{padding: '10px'}}>
+            <Paper style={{padding: '20px'}}>
                 <TodoList todoList={tdl}/>
             </Paper>
         </Grid>

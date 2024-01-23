@@ -32,9 +32,12 @@ const slice = createSlice({
             .addMatcher(isRejected, (state, action: AnyAction) => {
                 //debugger
                 state.status = 'failed'
-                if (action.payload){
+                if (action.payload) {
+                    //debugger
+                    if (action.type.includes('initializeApp')) return
                     state.error = action.payload.messages[0]
-                }else {
+                } else {
+                    //debugger
                     state.error = action.error.message ? action.error.message : 'Some error'
                 }
             })
