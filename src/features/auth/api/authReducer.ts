@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {setAppStatus, setIsInitialized} from "@/app/appReducer";
 import {authAPI, LoginParamsType} from "@/features/auth/api/authApi";
 import {clearState} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
@@ -12,13 +12,7 @@ const slice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(login.fulfilled, (state, action) => {
-                state.isLoggedIn = action.payload.isLogged
-            })
-            .addCase(logout.fulfilled, (state, action) => {
-                state.isLoggedIn = action.payload.isLogged
-            })
-            .addCase(initializeApp.fulfilled, (state, action) => {
+            .addMatcher(isAnyOf(authThunks.login.fulfilled, authThunks.logout.fulfilled, authThunks.initializeApp.fulfilled), (state, action) => {
                 state.isLoggedIn = action.payload.isLogged
             })
     }
