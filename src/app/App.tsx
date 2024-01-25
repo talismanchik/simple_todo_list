@@ -33,6 +33,7 @@ export const App = () => {
                 <Header isLoggedIn={isLoggedIn}/>
                 <Container fixed style={{paddingBottom: '30px'}}>
                     <Routes>
+                        fr
                         <Route path={'/'} element={<TodoListsList isLoggedIn={isLoggedIn}/>}/>
                         <Route path={'/auth'} element={<Login isLoggedIn={isLoggedIn}/>}/>
                         <Route path={'*'} element={<Navigate to={'/404'}/>}/>
