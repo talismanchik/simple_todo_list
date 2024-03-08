@@ -29,6 +29,7 @@ export const App = () => {
     return (
         <BrowserRouter>
             <div className={s.app}>
+
                 <ErrorSnackbar/>
                 <Header isLoggedIn={isLoggedIn}/>
                 <Container fixed style={{paddingBottom: '30px'}}>
