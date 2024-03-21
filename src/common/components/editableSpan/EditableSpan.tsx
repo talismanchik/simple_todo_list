@@ -42,7 +42,7 @@ export const EditableSpan = React.memo(({title, onChange, isDone, disabled}:Edit
                         onKeyUp={onKeyPressHandler}
            />
            // <input value={inputValue} onBlur={activateViewMode} autoFocus onChange={onChangeHandler}/>
-           :<span title={title}  className={isDone? s.isDone: ''} onDoubleClick={activateEditeMode}>{title}</span>
+           :<span title={title.length >=26? title: ''}  className={isDone? s.isDone: ''} onDoubleClick={activateEditeMode}>{title}</span>
     );
 });
 
