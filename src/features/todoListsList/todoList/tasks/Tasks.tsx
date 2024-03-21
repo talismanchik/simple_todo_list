@@ -1,4 +1,4 @@
-import s from "../Todolist.module.scss";
+import s from '../Todolist.module.scss';
 import {Task} from "./task/Task";
 import {TaskDomainType} from "@/features/todoListsList/todoList/tasks/tasksApi/tasksReducer";
 import {useAppSelector} from "@/common/hooks/useAppSelector";
@@ -29,8 +29,8 @@ export const Tasks = React.memo(({todoList}: Props) => {
         )
     })
     return (
-        <ul className={s.listItems}>
+        <div className={s.listItems}>
             {tasksMapped}
-        </ul>
+        </div>
     );
 });

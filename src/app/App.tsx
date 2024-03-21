@@ -1,4 +1,3 @@
-import s from './App.module.scss'
 import {Header} from "@/app/layout/header/header";
 import Container from "@mui/material/Container";
 import {useEffect} from "react";
@@ -6,14 +5,13 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {Login} from '@/features/auth/ui/login';
 import CircularProgress from "@mui/material/CircularProgress";
 import {TodoListsList} from "@/features/todoListsList/TodoListsList";
-import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {authThunks} from "@/features/auth/api/authReducer";
 import {ErrorSnackbar} from "@/common/components/errorSnackbar/ErrorSnackbar";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {useApp} from "@/app/hooks/useApp";
 
 export const App = () => {
-    const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
+    const {isLoggedIn, isInitialized, dispatch, customTheme} = useApp()
 
     useEffect(() => {
         dispatch(authThunks.initializeApp())
@@ -28,19 +26,19 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            <div className={s.app}>
-                <ErrorSnackbar/>
-
-                <Header isLoggedIn={isLoggedIn}/>
-                <Container fixed style={{paddingBottom: '30px'}}>
-                    <Routes>
-                        <Route path={'/'} element={<TodoListsList isLoggedIn={isLoggedIn}/>}/>
-                        <Route path={'/auth'} element={<Login isLoggedIn={isLoggedIn}/>}/>
-                        <Route path={'*'} element={<Navigate to={'/404'}/>}/>
-                        <Route path={'/404'} element={<h1>404: PAGE NOT FOUND</h1>}/>
-                    </Routes>
-                </Container>
-            </div>
+            <ThemeProvider theme={customTheme}>
+                <CssBaseline />
+                    <ErrorSnackbar/>
+                    <Header isLoggedIn={isLoggedIn}/>
+                    <Container fixed style={{paddingBottom: '30px'}}>
+                        <Routes>
+                            <Route path={'/'} element={<TodoListsList isLoggedIn={isLoggedIn}/>}/>
+                            <Route path={'/auth'} element={<Login isLoggedIn={isLoggedIn}/>}/>
+                            <Route path={'*'} element={<Navigate to={'/404'}/>}/>
+                            <Route path={'/404'} element={<h1>404: PAGE NOT FOUND</h1>}/>
+                        </Routes>
+                    </Container>
+            </ThemeProvider>
         </BrowserRouter>
 
     )

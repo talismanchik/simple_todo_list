@@ -1,9 +1,36 @@
+.paper {
+  max-width: 350px;
+  min-width: 350px;
+}
+
 .todoListsContainer {
-  justify-content: space-around;
+  justify-content: space-between;
+
   .todoListContainer {
+    .listItems {
+      padding-block: 20px;
+
+      .taskContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        button {
+          transition: 0.3s;
+        }
+
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
 
     .buttonContainer {
       display: flex;
+      justify-content: space-between;
       gap: 20px;
 
       > .button {
@@ -17,8 +44,15 @@
         }
       }
     }
+
+
   }
+
   .isDone {
     opacity: 0.6;
   }
 }
+
+
+
+

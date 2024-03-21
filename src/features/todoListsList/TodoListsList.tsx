@@ -6,7 +6,7 @@ import {TodoList} from "./todoList/TodoList";
 import {TodoListDomainType, todoListThunks} from "@/features/todoListsList/todoList/todoListApi/todoListsReducer";
 import {useAppDispatch, useAppSelector} from "@/common/hooks";
 import {AddItemForm} from "@/common/components/addItemForm/AddItemForm";
-import s from '@/features/todoListsList/todoList/Todolist.module.scss'
+import s from './todoList/Todolist.module.scss'
 
 type Props = {
     isLoggedIn: boolean
@@ -24,7 +24,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: Props) => {
     }, [])
     const mappedTodoLists = todoLists.map(tdl => {
         return <Grid item key={tdl.id}>
-            <Paper style={{padding: '20px'}}>
+            <Paper className={s.paper} style={{padding: '20px'}}>
                 <TodoList todoList={tdl}/>
             </Paper>
         </Grid>
@@ -35,7 +35,7 @@ export const TodoListsList = React.memo(({isLoggedIn}: Props) => {
 
     return (
         <>
-            <Grid container style={{padding: '20px'}}>
+            <Grid container style={{padding: '20px', display: 'flex', justifyContent: 'center'}}>
                 <AddItemForm addItem={addTodoList}/>
             </Grid>
             <Grid className={s.todoListsContainer} container spacing={3}>
