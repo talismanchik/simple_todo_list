@@ -12,11 +12,9 @@ import {useApp} from "@/app/hooks/useApp";
 
 export const App = () => {
     const {isLoggedIn, isInitialized, dispatch, customTheme} = useApp()
-
     useEffect(() => {
         dispatch(authThunks.initializeApp())
     }, [])
-
     if (!isInitialized) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>

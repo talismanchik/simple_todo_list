@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  gap: 10px;
 
   .input {
     display: none;
@@ -45,7 +45,7 @@
       }
 
       .sun {
-        fill: gold;
+        fill: #f3cb00;
         margin-top: -200%;
         transition: .3s;
       }
@@ -60,7 +60,7 @@
       }
     }
   }
-  .input:checked + .label {
+  .input:not(:checked) + .label {
     background-color: #f3f3f3;
     box-shadow: 5px 5px 9px rgba(0, 0, 0, 0.3) inset, -5px -5px 9px rgba(0, 0, 0, 0.3) inset;
     .circle {

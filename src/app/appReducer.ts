@@ -1,10 +1,16 @@
 import {AnyAction, createSlice, isFulfilled, isPending, isRejected, PayloadAction} from "@reduxjs/toolkit";
 
+const darkModeFromLocalStorage = ():boolean=>{
+    const localTheme = localStorage.getItem('theme')
+    return localTheme? JSON.parse(localTheme): true
+}
+
 
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
     isInitialized: false,
+    isDarkMode: darkModeFromLocalStorage(),
 }
 
 const slice = createSlice({
@@ -19,6 +25,10 @@ const slice = createSlice({
         },
         setIsInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
             state.isInitialized = action.payload.isInitialized
+        },
+        setDarkAppMode(state, action:PayloadAction<{mode: boolean}>){
+            state.isDarkMode = action.payload.mode
+            localStorage.setItem('theme', JSON.stringify(action.payload.mode))
         }
     },
     extraReducers: builder => {
@@ -30,14 +40,11 @@ const slice = createSlice({
                 state.status = 'succeeded'
             })
             .addMatcher(isRejected, (state, action: AnyAction) => {
-                //debugger
                 state.status = 'failed'
                 if (action.payload) {
-                    //debugger
                     if (action.type.includes('initializeApp')) return
                     state.error = action.payload.messages[0]
                 } else {
-                    //debugger
                     state.error = action.error.message ? action.error.message : 'Some error'
                 }
             })
@@ -45,7 +52,7 @@ const slice = createSlice({
 })
 
 export const appReducer = slice.reducer
-export const {setAppStatus, setAppError, setIsInitialized} = slice.actions
+export const {setAppStatus, setDarkAppMode, setAppError, setIsInitialized} = slice.actions
 
 
 //TYPES
