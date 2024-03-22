@@ -17,7 +17,7 @@ export const ThemeToggle = ({darkMode, setDarkMode}: Props) => {
                     <Sun/>
                 </div>
             </label>
-            <span>{darkMode ? `Go to light` : `Go to dark` }</span>
+            {/*<span>{darkMode ? `Dark theme` : `Light theme` }</span>*/}
         </div>
     );
 };

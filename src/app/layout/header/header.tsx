@@ -32,7 +32,7 @@ export const Header = ({isLoggedIn}: HeaderType) => {
                     Task Tracker
                 </Typography>
                 <ThemeToggle darkMode={darkMode} setDarkMode={changeTheme}/>
-                {isLoggedIn && <Button onClick={logoutHandler} color="inherit">Log out</Button>}
+                {isLoggedIn && <Button onClick={logoutHandler} color="inherit">Logout</Button>}
             </Toolbar>
             {status === 'loading' && <LinearProgress/>}
         </AppBar>

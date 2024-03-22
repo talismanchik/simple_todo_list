@@ -25,7 +25,9 @@ export const App = () => {
     return (
         <BrowserRouter>
             <ThemeProvider theme={customTheme}>
+
                 <CssBaseline />
+
                     <ErrorSnackbar/>
                     <Header isLoggedIn={isLoggedIn}/>
                     <Container fixed style={{paddingBottom: '30px'}}>
